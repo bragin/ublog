@@ -1,0 +1,37 @@
+{
+  "name": "ublog",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bragin/ublog.git"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "start": "webpack --progress --colors --watch",
+    "run": "nodemon server/main.js"
+  },
+  "dependencies": {
+    "nconf": "",
+    "express": "",
+    "react": "~0.13",
+    "react-mini-router": "",
+    "marked": "",
+    "moment": "",
+    "webpack": "",
+    "bundle-loader": "",
+    "jsx-loader": "",
+    "css-loader": "",
+    "style-loader": "",
+    "postcss-loader": "",
+    "file-loader": "",
+    "url-loader": "",
+    "autoprefixer-core": "",
+    "extract-text-webpack-plugin": ""
+  },
+  "devDependencies": {
+    "gulp": "",
+    "nodemon": ""
+  }
+}
