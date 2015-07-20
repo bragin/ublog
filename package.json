@@ -16,6 +16,11 @@
   "dependencies": {
     "nconf": "",
     "express": "",
+    "handlebars": "",
+    "body-parser": "",
+    "cookie-parser": "",
+    "cookie-session": "",
+
     "react": "~0.13",
     "react-mini-router": "",
     "marked": "",
