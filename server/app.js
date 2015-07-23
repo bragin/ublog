@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -10,6 +12,7 @@ var themes = require('./themes');
 var app = express();
 
 // For development: Serve build js/css and static files
+app.use('/themes', express.static(relativePath('../themes')));
 app.use('/assets', express.static(relativePath('../build')));
 app.use('/', express.static(relativePath('../static')));
 
@@ -21,9 +24,27 @@ app.use(cookieParser());
 // Theming
 themes.init(handlebars);
 themes.setTheme('casper');
-var appTemplate = handlebars.compile(themes.base);
-console.log(themes.base);
+var themeDefault = handlebars.compile(themes.default);
 
+// Routing
+
+// API requests
+app.get('/api/*', function (req, res) {
+	res.send('Bad API request');
+});
+
+
+// Login
+app.get('/login', function (req, res, next) {
+	res.send('Unimplemented');
+});
+
+// Show specific post
+app.get('/:post', function (req, res, next) {
+	res.send('Unimplemented');
+});
+
+// Catch-all handler
 app.get('*', function (req, res, next) {
 	var payload = {
 		user: {
@@ -34,17 +55,17 @@ app.get('*', function (req, res, next) {
 		}
 	};
 	var title = 'UBlog';
-	var bodyClass = '';
+	var footer = '<script id="payload" type="application/payload">' + JSON.stringify(payload) + '</script>' +
+				'<script src="/assets/js/app.js"></script>';
+
 	var content = 'Loading...';
 	//content = React.renderToString(React.createElement(handler, props));
 
-	var result = '<html></html>';
-
-	var result = appTemplate({
-		content: content,
-		//payload: JSON.stringify(payload),
-		bodyClass: bodyClass,
-		title: title
+	var result = themeDefault({
+		navigation: 'Nav',
+		body: content,
+		title: title,
+		ublog_foot: footer
 	});
 
 

@@ -11,8 +11,12 @@ For development:
 - npm install -g gulp
 - npm install
 
-# Running in development mode
+## Running in development mode
 gulp run
 
 This will run the server at http://localhost:4000 and will automatically rebuild everything.
 You just need to refresh your webpage to reload latest changes
+
+## Coding style
+- Single quotes for javascript code, double quotes in HTML code/strings
+- strict code

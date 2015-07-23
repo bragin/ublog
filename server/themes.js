@@ -1,5 +1,7 @@
 var fs = require('fs');
 var path = require('path');
+var handlebars = require('handlebars');
+var moment = require('moment');
 var relativePath = require('./relativepath');
 
 // Create a wrapper around fs.readFileSync function for easier access
@@ -11,7 +13,8 @@ var themes = {
 
 	helpers: {
 		asset: function (context, options) {
-			console.log('asset helper called!');
+			var output = '/themes/casper/assets/' + context; // FIXME: Hardcoded for now
+			return new handlebars.SafeString(output);
 		},
 		author: function (context, options) {
 			console.log('author helper called!');
@@ -23,7 +26,11 @@ var themes = {
 			console.log('title helper called!');
 		},
 		date: function (context, options) {
-			console.log('date helper called!');
+			// Formats a date using moment.js. Formats published_at by default but will also take a date as a parameter
+			//console.log('date helper called!');
+			var f = 'MMM Do, YYYY';
+
+			return moment(context).format(f);
 		},
 		encode: function (context, options) {
 			console.log('encode helper called!');
@@ -43,9 +50,11 @@ var themes = {
 		has: function (context, options) {
 			console.log('has helper called!');
 		},
-		navigation: function (context, options) {
-			console.log('navigation helper called!');
-		},
+		//navigation: function (context, options) {
+			// Outputs navigation menu of static urls
+			//console.log('navigation helper called!');
+			//return null;
+		//},
 		page_url: function (context, options) {
 			console.log('page_url helper called!');
 		},
@@ -71,6 +80,9 @@ var themes = {
 
 	setTheme: function(name) {
 		this.active = name;
+
+		this.default = read('themes/' + this.active + '/default.hbs');
+		//this.index = read('themes/' + this.active + '/index.hbs');
 	},
 
 	init: function(hbs) {
@@ -86,7 +98,7 @@ var themes = {
 		hbs.registerHelper('is', this.helpers.is);
 		hbs.registerHelper('input_password', this.helpers.input_password);
 		hbs.registerHelper('has', this.helpers.has);
-		hbs.registerHelper('navigation', this.helpers.navigation);
+		//hbs.registerHelper('navigation', this.helpers.navigation);
 		hbs.registerHelper('page_url', this.helpers.page_url);
 		hbs.registerHelper('pageUrl', this.helpers.pageUrl);
 		hbs.registerHelper('pagination', this.helpers.pagination);
@@ -94,10 +106,7 @@ var themes = {
 		hbs.registerHelper('plural', this.helpers.plural);
 		hbs.registerHelper('url', this.helpers.url);
 		hbs.registerHelper('image', this.helpers.image);
-	},
-
-
-	base: read('themes/' + 'casper' + '/default.hbs') // FIXME: Hardcoded for now
+	}
 };
 
 module.exports = themes;
