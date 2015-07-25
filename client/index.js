@@ -27,7 +27,7 @@ var RootComponent = React.createClass({
 	home: function() {
 		return (
 			<div id="root">
-				<Header title="Blog Title" description="My awesome blog!"/>
+				<Header title="Blog Title" description="My awesome blog!" url="/" />
 				<PostSummary post={{
 						author: 'Alex',
 						ts: 1010101010,

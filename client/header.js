@@ -14,11 +14,11 @@ var Header = React.createClass({
 	render: function() {
 
 		var props = this.props;
-		var url = 'http://#';
 
-		// FIXME: If logo exists
-		var logoUrl = '';
-		var logo = <a className="blog-logo" href={url}><img alt={props.title} src={logoUrl} /></a>;
+		var logo = null;
+		if (this.props.logo) {
+			logo = <a className="blog-logo" href={props.url}><img alt={props.title} src={props.logo} /></a>;
+		}
 
 		return (
 			<header className="main-header">
