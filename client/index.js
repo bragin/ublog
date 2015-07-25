@@ -6,6 +6,7 @@ var RouterMixin = require('react-mini-router').RouterMixin;
 var navigate = require('react-mini-router').navigate;
 
 var Header = require('./header');
+var PostSummary = require('./postsummary');
 
 // Root component
 var RootComponent = React.createClass({
@@ -26,7 +27,14 @@ var RootComponent = React.createClass({
 	home: function() {
 		return (
 			<div id="root">
-				<Header />
+				<Header title="Blog Title" description="My awesome blog!"/>
+				<PostSummary post={{
+						author: 'Alex',
+						ts: 1010101010,
+						url: 'firstpost',
+						title: 'Post title',
+						excerpt: 'First paragraph of a post'
+				}}/>
 			</div>
 			);
 	},
