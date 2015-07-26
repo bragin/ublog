@@ -8,10 +8,20 @@ var wpCompiler = webpack(clientConfig);
 
 function onBuild(cb) {
   return function(err, stats) {
+    // Show only errors and warnings on the screen
     if (err)
-      console.log('Error', err);
-    else
-      console.log(stats.toString());
+      return console.log('Fatal Error: ', err);
+
+    var jsonStats = stats.toJson();
+      
+    if(jsonStats.errors.length > 0) {
+        console.log('Error: ', jsonStats.errors);
+    }
+    if(jsonStats.warnings.length > 0) {
+        console.log('Warning: ', jsonStats.warnings);
+    }
+ 
+    //console.log(stats.toString());
 
     if (cb) cb();
   }
