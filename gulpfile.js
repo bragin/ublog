@@ -4,6 +4,8 @@ var webpack = require('webpack');
 var clientConfig = require('./webpack.config');
 var path = require('path');
 
+var wpCompiler = webpack(clientConfig);
+
 function onBuild(cb) {
   return function(err, stats) {
     if (err)
@@ -21,11 +23,14 @@ function onBuild(cb) {
 // Clientside (frontend) tasks
 gulp.task('client-watch', function() {
   // Changes within 100 ms = one rebuild
-  webpack(clientConfig).watch(100, onBuild);
+  wpCompiler.watch({
+      aggregateTimeout: 100
+    },
+    onBuild());
 });
 
 gulp.task('client-build', function(cb) {
-  webpack(clientConfig).run(onBuild(cb));
+  wpCompiler.run(onBuild(cb));
 });
 
 // Group tasks
