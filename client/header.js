@@ -14,10 +14,11 @@ var Header = React.createClass({
 	render: function() {
 
 		var props = this.props;
+		var blog = this.props.blog;
 
 		var logo = null;
-		if (this.props.logo) {
-			logo = <a className="blog-logo" href={props.url}><img alt={props.title} src={props.logo} /></a>;
+		if (blog.logo) {
+			logo = <a className="blog-logo" href={blog.url}><img alt={blog.title} src={blog.logo} /></a>;
 		}
 
 		return (
@@ -28,8 +29,8 @@ var Header = React.createClass({
 				</nav>
 				<div className="vertical">
 					<div className="main-header-content inner">
-					  <h1 className="page-title">{props.title}</h1>
-					  <h2 className="page-description">{props.description}</h2>
+					  <h1 className="page-title">{blog.title}</h1>
+					  <h2 className="page-description">{blog.description}</h2>
 					</div>
 				</div>
 				<a className="scroll-down icon-arrow-left" href="#content" data-offset={-45}><span className="hidden">Scroll Down</span></a>

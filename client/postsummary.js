@@ -16,7 +16,7 @@ var PostSummary = React.createClass({
 		var tags = null; // prefix = on
 
 		return (
-			<article className={post.class}>
+			<article className={post.className}>
 				<header className="post-header">
 					<h2 className="post-title"><a href={post.url}>{post.title}</a></h2>
 				</header>

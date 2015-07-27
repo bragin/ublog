@@ -23,19 +23,10 @@
 </head>
 <body class="{{body_class}} nav-closed">
 
-    {{{navigation}}}
-
-    <div class="site-wrapper">
+    <div class="site-wrapper" id="site-wrapper">
 
         {{! Everything else gets inserted here }}
-        <div id="body">
-            {{{body}}}
-        </div>
-
-        <footer class="site-footer clearfix">
-            <section class="copyright"><a href="{{@blog.url}}">{{@blog.title}}</a> &copy; {{date format="YYYY"}}</section>
-            <section class="poweredby">Powered by <a href="https://ublog.io">UBlog</a></section>
-        </footer>
+        {{{body}}}
 
     </div>
 

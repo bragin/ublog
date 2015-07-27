@@ -62,7 +62,6 @@ app.get('*', function (req, res, next) {
 	//content = React.renderToString(React.createElement(handler, props));
 
 	var result = themeDefault({
-		navigation: 'Nav',
 		body: content,
 		title: title,
 		ublog_foot: footer

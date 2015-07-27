@@ -6,6 +6,7 @@ var RouterMixin = require('react-mini-router').RouterMixin;
 var navigate = require('react-mini-router').navigate;
 
 var Header = require('./header');
+var Footer = require('./footer');
 var PostSummary = require('./postsummary');
 
 // Root component
@@ -25,16 +26,29 @@ var RootComponent = React.createClass({
 		return this.renderCurrentRoute();
 	},
 	home: function() {
+
+		var blog = {
+			title: 'Blog Title',
+			description: 'My awesome blog!1',
+			url: 'http://demo.ublog.io'
+		};
+
 		return (
 			<div id="root">
-				<Header title="Blog Title" description="My awesome blog!" url="/" />
-				<PostSummary post={{
+				<Header blog={blog} />
+
+				<main id="content" className="content" role="main">
+					<PostSummary post={{
+						className: 'post',
 						author: 'Alex',
 						ts: 1010101010,
 						url: 'firstpost',
 						title: 'Post title',
 						excerpt: 'First paragraph of a post'
-				}}/>
+					}}/>
+				</main>
+
+				<Footer blog={blog}/>
 			</div>
 			);
 	},
@@ -52,5 +66,5 @@ var RootComponent = React.createClass({
 
 React.render( 
    <RootComponent history='true' />, 
-   document.getElementById('body')
+   document.getElementById('site-wrapper')
 );
