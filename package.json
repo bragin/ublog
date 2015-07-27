@@ -14,13 +14,15 @@
     "run": "nodemon server/main.js"
   },
   "dependencies": {
-    "nconf": "",
-    "express": "",
-    "handlebars": "",
+    "async":"",
     "body-parser": "",
     "cookie-parser": "",
     "cookie-session": "",
-
+    "express": "",
+    "handlebars": "",
+    "redis":"",
+    "nconf": "",
+    
     "react": "~0.13",
     "react-mini-router": "",
     "marked": "",

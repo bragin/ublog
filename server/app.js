@@ -8,6 +8,7 @@ var nconf = require('nconf');
 var handlebars = require('handlebars');
 var relativePath = require("./relativepath");
 var themes = require('./themes');
+var blogApi = require('./blogapi');
 
 var app = express();
 
@@ -21,6 +22,9 @@ app.use(cookieSession({ keys: ['blah'] }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// Initialize blogApi
+blogApi.init();
+
 // Theming
 themes.init(handlebars);
 themes.setTheme('casper');
@@ -33,6 +37,10 @@ app.get('/api/*', function (req, res) {
 	res.send('Bad API request');
 });
 
+// Admin / setup area
+app.get('/ublog', function (req, res, next) {
+	res.send('Unimplemented');
+});
 
 // Login
 app.get('/login', function (req, res, next) {
