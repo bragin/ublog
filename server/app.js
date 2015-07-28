@@ -33,8 +33,24 @@ var themeDefault = handlebars.compile(themes.default);
 // Routing
 
 // API requests
+app.post('/api/posts', function (req, res) {
+
+	var params = req.body;
+	try {
+		params.limit = parseInt(params.limit, 10);
+		if (params.limit < 1) params.limit = 1;
+		if (params.limit > 10) params.limit = 10;
+	} catch (e) {
+		return res.status(500).send('Bad API request');
+	}
+
+	var obj = blogApi.getPosts(req.body);
+	res.set('Content-Type', 'application/json');
+	res.send(JSON.stringify(obj));
+});
+
 app.get('/api/*', function (req, res) {
-	res.send('Bad API request');
+	res.status(500).send('Bad API request');
 });
 
 // Admin / setup area

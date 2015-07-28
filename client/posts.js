@@ -2,6 +2,7 @@
 "use strict";
 
 var React = require('react');
+var api = require('./api');
 
 // Post in the list
 var PostSummary = React.createClass({
@@ -34,4 +35,42 @@ var PostSummary = React.createClass({
 	}
 });
 
-module.exports = PostSummary;
+
+var Posts = React.createClass({
+	getInitialState: function() {
+		var st = {
+			posts: []
+		};
+
+		return st;
+	},
+
+	requestUpdate: function() {
+		api.getPosts({limit: 5}, this.onUpdateReceived);
+	},
+
+	onUpdateReceived: function(res) {
+		if (!res) return;
+
+		console.log('onUpdateReceived!', res);
+
+		this.setState({
+			posts: res.posts
+		});
+	},
+
+	componentDidMount: function() {
+		// Fetch info if it wasn't provided via init object
+		this.requestUpdate();
+	},
+
+	render: function() {
+		var body = this.state.posts.map(function(post, idx) {
+			return <PostSummary key={idx} post={post} />;
+		}.bind(this));
+
+		return <div>{body}</div>;
+	}
+});
+
+module.exports = Posts;

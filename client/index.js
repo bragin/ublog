@@ -7,7 +7,9 @@ var navigate = require('react-mini-router').navigate;
 
 var Header = require('./header');
 var Footer = require('./footer');
-var PostSummary = require('./postsummary');
+var Posts = require('./posts');
+
+var blogApi = require('./api')
 
 // Root component
 var RootComponent = React.createClass({
@@ -38,14 +40,7 @@ var RootComponent = React.createClass({
 				<Header blog={blog} />
 
 				<main id="content" className="content" role="main">
-					<PostSummary post={{
-						className: 'post',
-						author: 'Alex',
-						ts: 1010101010,
-						url: 'firstpost',
-						title: 'Post title',
-						excerpt: 'First paragraph of a post'
-					}}/>
+					<Posts />
 				</main>
 
 				<Footer blog={blog}/>

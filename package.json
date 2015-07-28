@@ -36,7 +36,8 @@
     "file-loader": "",
     "url-loader": "",
     "autoprefixer-core": "",
-    "extract-text-webpack-plugin": ""
+    "extract-text-webpack-plugin": "",
+    "xhr": ""
   },
   "devDependencies": {
     "gulp": "",

@@ -40,7 +40,35 @@ function getBlogInfo() {
 }
 
 // Posts api
-function getPosts() {
+function getPosts(query) {
+	console.log(query);
+
+	// If userid is not specified - assume blog owner
+	if (!query.uid) query.uid = 1;
+
+	// DEBUG!
+	var posts = [];
+	posts.push({
+		className: 'post',
+		author: 'Alex',
+		ts: 1010101010,
+		url: 'firstpost',
+		title: 'Post title',
+		excerpt: 'First paragraph of a post3'
+	});
+	posts.push(
+		{
+			className: 'post',
+			author: 'Alex',
+			ts: 1010101010,
+			url: 'secondpost',
+			title: 'Older post',
+			excerpt: 'First paragraph of a post1'
+		});
+
+	return {
+		posts: posts
+	}
 }
 
 function createPost() {
