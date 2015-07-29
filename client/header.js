@@ -3,12 +3,6 @@
 
 var React = require('react');
 
-var Navigation = React.createClass({
-	render: function() {
-		return <a className="menu-button icon-menu" href="#"><span className="word">Menu</span></a>;
-	}
-});
-
 // The big featured header
 var Header = React.createClass({
 	onScrollBtn: function(e) {
@@ -50,6 +44,7 @@ var Header = React.createClass({
 			})();
 		}
 	},
+
 	render: function() {
 
 		var props = this.props;
@@ -60,11 +55,16 @@ var Header = React.createClass({
 			logo = <a className="blog-logo" href={blog.url}><img alt={blog.title} src={blog.logo} /></a>;
 		}
 
+		var nav = null;
+		if (true) {
+			nav = <a className="menu-button icon-menu" href="#" onClick={this.props.toggleMenu}><span className="word">Menu</span></a>;
+		}
+
 		return (
 			<header className="main-header">
 				<nav className="main-nav overlay clearfix">
 					{logo}
-					<Navigation />
+					{nav}
 				</nav>
 				<div className="vertical">
 					<div className="main-header-content inner">

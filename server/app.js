@@ -85,10 +85,14 @@ app.get('*', function (req, res, next) {
 	var content = 'Loading...';
 	//content = React.renderToString(React.createElement(handler, props));
 
+	// FIXME: Should be different for other pages! Look into Ghost/core/server/helpers/body_class.js for details
+	var bodyClass = 'home-template';
+
 	var result = themeDefault({
 		body: content,
 		title: title,
-		ublog_foot: footer
+		ublog_foot: footer,
+		body_class: bodyClass
 	});
 
 

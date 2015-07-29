@@ -5,6 +5,7 @@ var React = require('react');
 var RouterMixin = require('react-mini-router').RouterMixin;
 var navigate = require('react-mini-router').navigate;
 
+var Navigation = require('./nav');
 var Header = require('./header');
 var Footer = require('./footer');
 var Posts = require('./posts');
@@ -23,6 +24,17 @@ var RootComponent = React.createClass({
 		return {};
 	},
 
+	// This is needed here, because it's called by both menu open button inside Header component
+	// and menu close button in Navigation component. Ugly, needs to be fixed.
+	toggleMenu: function(e) {
+		e.preventDefault();
+
+		// Do the dirty hack: toggle class in the body element. Proper fix is to change the theme
+		var body = document.body;
+		body.classList.toggle('nav-closed');
+		body.classList.toggle('nav-opened');
+	},
+
 	// Router functions
 	render: function() {
 		return this.renderCurrentRoute();
@@ -37,13 +49,15 @@ var RootComponent = React.createClass({
 
 		return (
 			<div id="root">
-				<Header blog={blog} />
-
-				<main id="content" className="content" role="main">
-					<Posts />
-				</main>
-
-				<Footer blog={blog}/>
+				<Navigation blog={blog} toggleMenu={this.toggleMenu} />
+				<span className="nav-cover"></span>
+				<div className="site-wrapper" id="site-wrapper">
+					<Header blog={blog} toggleMenu={this.toggleMenu} />
+					<main id="content" className="content" role="main">
+						<Posts />
+					</main>
+					<Footer blog={blog}/>
+				</div>
 			</div>
 			);
 	},
@@ -61,5 +75,5 @@ var RootComponent = React.createClass({
 
 React.render( 
    <RootComponent history='true' />, 
-   document.getElementById('site-wrapper')
+   document.getElementById('page')
 );
