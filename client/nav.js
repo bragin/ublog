@@ -4,6 +4,12 @@
 var React = require('react');
 
 var Navigation = React.createClass({
+
+	onLogin: function(e) {
+		console.log('onLogin');
+		e.preventDefault();
+	},
+
 	render: function () {
 
 		/* <li className="nav-{{slug}}{{#if current}} nav-current{{/if}}" role="presentation"><a href="{{url absolute="true"}}">{{label}}</a></li> */
@@ -14,11 +20,20 @@ var Navigation = React.createClass({
 				<a href="#" className="nav-close" onClick={this.props.toggleMenu}>
 					<span className="hidden">Close</span>
 				</a>
-				<ul>
-					<li className="nav-slug nav-current" role="presentation"><a href="/url/absolute}">label 1</a></li>
-					<li className="nav-slug" role="presentation"><a href="/url/absolute}">label 2</a></li>
-				</ul>
-				<a className="subscribe-button icon-feed" href={this.props.blog.url+'/rss/'}>Subscribe</a>
+
+				<form id="login" className="login-form" onSubmit={this.onLogin}>
+					<div className="email-wrap">
+						<span className="icon input-icon icon-mail">
+							<input className="email" autocapitalize="off" autocorrect="off" autofocus="" placeholder="Email Address" name="identification" type="email" />
+						</span>
+					</div>
+					<div className="password-wrap">
+						<span className="icon input-icon icon-lock">
+							<input className="password" placeholder="Password" name="password" type="password" />
+						</span>
+					</div>
+					<button className="btn btn-blue login-button" type="submit">Sign in</button>
+				</form>
 			</div>);
 	}
 });
