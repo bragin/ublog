@@ -57,15 +57,15 @@ var Header = React.createClass({
 
 		var nav = null;
 		if (true) {
-			nav = <nav className="main-nav overlay clearfix">
-					{logo}
-					<a className="menu-button icon-menu" href="#" onClick={this.props.toggleMenu}><span className="word">Menu</span></a>
-				</nav>;
+			nav = <a className="menu-button icon-menu" href="#" onClick={this.props.toggleMenu}><span className="word">Menu</span></a>;
 		}
 
 		return (
 			<header className="main-header">
-				{nav}
+				<nav className="main-nav overlay clearfix">
+					{logo}
+					{nav}
+				</nav>
 				<div className="vertical">
 					<div className="main-header-content inner">
 					  <h1 className="page-title">{blog.title}</h1>

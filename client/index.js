@@ -43,7 +43,7 @@ var RootComponent = React.createClass({
 
 		var blog = {
 			title: 'Blog Title',
-			description: 'My awesome blog!2',
+			description: 'My awesome blog!1',
 			url: 'http://demo.ublog.io'
 		};
 
