@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var nconf = require('nconf');
 var handlebars = require('handlebars');
+var async = require('async');
 var relativePath = require("./relativepath");
 var themes = require('./themes');
 var blogApi = require('./blogapi');
@@ -49,6 +50,18 @@ app.post('/api/posts', function (req, res) {
 	res.send(JSON.stringify(obj));
 });
 
+// Show specific post
+app.get('/api/:post', function (req, res, next) {
+	res.send('Unimplemented');
+});
+
+// Login
+app.post('/api/login', function (req, res, next) {
+	//console.log(req.session.mytoken);
+	//req.session.mytoken = 'my token!';
+	res.send('Unimplemented');
+});
+
 app.get('/api/*', function (req, res) {
 	res.status(500).send('Bad API request');
 });
@@ -58,45 +71,55 @@ app.get('/ublog', function (req, res, next) {
 	res.send('Unimplemented');
 });
 
-// Login
-app.get('/login', function (req, res, next) {
-	res.send('Unimplemented');
-});
-
-// Show specific post
-app.get('/:post', function (req, res, next) {
-	res.send('Unimplemented');
-});
-
 // Catch-all handler
 app.get('*', function (req, res, next) {
-	var payload = {
-		user: {
-			name: 'placeholder' //req.session.username
-		},
-		config: {
-			url: nconf.get('url')
+
+	var tasks = [function (cb) {
+		// Check if it's first time setup by querying userid 1
+		blogApi.getUser(1, function (userObj) {
+			cb(null, userObj);
+		});
+	},
+	function (cb) {
+		cb(null, null);
+	}];
+
+	async.parallel(tasks, function (err, qres) {
+		var firstSetup = false;
+		if (qres[0] == null) {
+			// Display blog setup page
+			firstSetup = true;
 		}
-	};
-	var title = 'UBlog';
-	var footer = '<script id="payload" type="application/payload">' + JSON.stringify(payload) + '</script>' +
-				'<script src="/assets/js/app.js"></script>';
 
-	var content = 'Loading...';
-	//content = React.renderToString(React.createElement(handler, props));
+		var payload = {
+			firstSetup: firstSetup,
+			user: {
+				name: 'placeholder' //req.session.username
+			},
+			config: {
+				url: nconf.get('url')
+			}
+		};
+		var title = 'UBlog';
+		var footer = '<script id="payload" type="application/payload">' + JSON.stringify(payload) + '</script>' +
+					'<script src="/assets/js/app.js"></script>';
 
-	// FIXME: Should be different for other pages! Look into Ghost/core/server/helpers/body_class.js for details
-	var bodyClass = 'home-template';
+		var content = 'Loading...';
+		//content = React.renderToString(React.createElement(handler, props));
 
-	var result = themeDefault({
-		body: content,
-		title: title,
-		ublog_foot: footer,
-		body_class: bodyClass
+		// FIXME: Should be different for other pages! Look into Ghost/core/server/helpers/body_class.js for details
+		var bodyClass = 'home-template';
+
+		var result = themeDefault({
+			body: content,
+			title: title,
+			ublog_foot: footer,
+			body_class: bodyClass
+		});
+
+
+		res.send(result);
 	});
-
-
-	res.send(result);
 });
 
 

@@ -445,6 +445,8 @@ table { border-collapse: collapse; border-spacing: 0; }
     z-index: 100;
     font-size: 1.3rem;
     transform: translateY(-52%);
+     -ms-transform: translateY(-52%);
+     -webkit-transform: translateY(-52%);
 }
 
 
@@ -462,7 +464,7 @@ html {
 body {
     height: 100%;
     max-height: 100%;
-    font-family: "Merriweather", serif;
+    font-family: "Open Sans", sans-serif;
     letter-spacing: 0.01rem;
     font-size: 1.8rem;
     line-height: 1.75em;
@@ -797,8 +799,8 @@ body.nav-opened .site-wrapper {
     font-weight: 300;
     cursor: pointer;
     transition: color 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
 /* When hovered or clicked */
@@ -1302,7 +1304,8 @@ body.nav-opened .nav {
 }
 
 .login-form input[type="email"],
-.login-form input[type="password"] {
+.login-form input[type="password"]
+ {
     display: inline-block;
     clear: both;
     padding: 8px 0 8px 8px;
@@ -1321,13 +1324,62 @@ body.nav-opened .nav {
     transition: background ease .25s;
 }
 
-.email-wrap, .password-wrap {
+.login-form .email-wrap, .login-form .password-wrap {
     margin: 0 0 5px 0;
 }
 
-.login-button {
+.login-form .login-button {
     width: 100%;
 }
+
+/* New user setup form */
+.setup-box {
+    display: table;
+    max-width: 560px;
+    height: 90%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.setup-form {
+	display: table-cell;
+    color: #a5acae;
+    vertical-align:middle;
+	text-align: start;
+}
+
+.setup-form input[type="email"],
+.setup-form input[type="password"]
+ {
+    display: inline-block;
+    clear: both;
+    padding: 8px 0 8px 8px;
+
+    line-height: 21px;
+    font-size: 15px;
+    font-weight: 200;
+    border: none;
+    color: #fff;
+    background: #3c4043;
+    box-shadow: none;
+    margin: 0;
+    position: relative;
+    -webkit-transition: background ease .25s;
+    transition: background ease .25s;
+}
+
+.setup-form .email-wrap, .setup-form .password-wrap {
+	position: relative;
+	float: left;
+	margin: 0 5px 5px 0;
+}
+
+.setup-form button {
+	height: 37px;
+	margin-left: 5px;
+}
+
+
 
 /* When the navigation is closed */
 .nav-closed .menu-button {

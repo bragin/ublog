@@ -80,6 +80,24 @@ function updatePost() {
 function deletePost() {
 }
 
+// User related functions
+function getUser(uid, cb) {
+	uid = parseInt(uid, 10);
+
+	rclient.hgetall('uid:' + uid, function (err, res) {
+		if (err) {
+			res.error = 'Database access error';
+		}
+
+		cb(res);
+	});
+
+}
+
+function createUser(user, cb) {
+	cb();
+}
+
 // Exported object
 var blogApi = {
 	init: init,
@@ -88,6 +106,8 @@ var blogApi = {
 	getPosts: getPosts,
 	createPost: createPost,
 	updatePost: updatePost,
-	deletePost: deletePost
+	deletePost: deletePost,
+	getUser: getUser,
+	createUser: createUser
 }
 module.exports = blogApi;
