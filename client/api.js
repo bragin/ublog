@@ -12,9 +12,27 @@ var api = [];
 api.xhr = {
 	login: function(info, cb) {
 		xhr({
-			json: info,
+			json: {
+				op: 'login',
+				info: info
+			},
 			method: 'POST',
-			uri: '/api/login'
+			uri: '/api/user'
+		}, function (err, resp, body) {
+			if (resp.statusCode != 200)
+				cb(null);
+			else
+				cb(body);
+		})
+	},
+	createUser: function(info, cb) {
+		xhr({
+			json: {
+				op: 'createUser',
+				info: info
+			},
+			method: 'POST',
+			uri: '/api/user'
 		}, function (err, resp, body) {
 			if (resp.statusCode != 200)
 				cb(null);
@@ -41,12 +59,17 @@ function login(info, cb) {
 	api[prot].login(info, cb);
 }
 
+function createUser(user, cb) {
+	api[prot].createUser(user, cb);
+}
+
 function getPosts(query, cb) {
 	api[prot].getPosts(query, cb);
 }
 
 var blogApi = {
 	login: login,
+	createUser: createUser,
 	getPosts: getPosts
 }
 

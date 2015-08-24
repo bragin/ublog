@@ -19,6 +19,7 @@
     "cookie-parser": "",
     "cookie-session": "",
     "express": "",
+    "crypto": "",
     "handlebars": "",
     "redis":"",
     "nconf": "",

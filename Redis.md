@@ -10,8 +10,13 @@ site - instance info, type=hash
 - description
 
 user:<USER_ID> - user profile, type=hash
-- password
-- name
+- pass
+- email
+- created
+- rf
+
+lookups:user.email - email -> uid lookup, type=hash
+- <EMAIL> : <USER_ID>
 
 post:<POST_ID> - blog post, type=hash
 - shorturl
@@ -25,3 +30,6 @@ post:<POST_ID> - blog post, type=hash
 
 posts - set of all posts (by id), type=sorted set
 user:<USER_ID>:posts - set of all posts (by id) by this user, type=sorted set
+
+Global counters
+global:nextUserId

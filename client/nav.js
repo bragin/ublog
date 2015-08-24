@@ -5,13 +5,15 @@ var React = require('react');
 
 var LoginBox = React.createClass({
 	onLogin: function(e) {
-		console.log('onLogin');
 		e.preventDefault();
+
+		var email = this.refs.email.getDOMNode().value;
+		var pass = this.refs.password.getDOMNode().value;
 
 		this.props.blog.api.login({
 			action: 'login',
-			email: 'a@b.com',
-			password: 'xxx'
+			email: email,
+			password: pass
 		}, this.onLoginCallback)
 	},
 

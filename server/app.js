@@ -55,11 +55,31 @@ app.get('/api/:post', function (req, res, next) {
 	res.send('Unimplemented');
 });
 
-// Login
-app.post('/api/login', function (req, res, next) {
+// User-related APIs
+app.post('/api/user', function (req, res, next) {
+	function userCallback(replyObj) {
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(replyObj));
+	}
+
 	//console.log(req.session.mytoken);
 	//req.session.mytoken = 'my token!';
-	res.send('Unimplemented');
+
+	var params = req.body;
+	if (!params.op) return res.status(500).send('Bad API request');
+
+	var replyObj = null;
+
+	switch (params.op) {
+		case 'createUser':
+			blogApi.createUser(params.info, userCallback);
+			break;
+		case 'login':
+			blogApi.login(params.info, userCallback);
+			break;
+		default:
+			return res.send('Unimplemented');
+	}
 });
 
 app.get('/api/*', function (req, res) {

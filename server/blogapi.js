@@ -4,6 +4,8 @@
 var nconf = require('nconf');
 var redis = require('redis');
 
+var auth = require('./auth');
+
 var rclient;
 
 
@@ -95,7 +97,9 @@ function getUser(uid, cb) {
 }
 
 function createUser(user, cb) {
-	cb();
+	auth.registerNewUser(rclient, user, 'owner', function (uid) {
+		cb({ uid: uid });
+	});
 }
 
 // Exported object

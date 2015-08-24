@@ -9,6 +9,7 @@ var Navigation = require('./nav');
 var Header = require('./header');
 var Footer = require('./footer');
 var Posts = require('./posts');
+var Setup = require('./setup');
 
 var blogApi = require('./api')
 
@@ -22,7 +23,14 @@ var RootComponent = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {};
+		return {
+			blog: {
+				title: 'Blog Title',
+				description: 'My awesome blog!1',
+				url: 'http://demo.ublog.io',
+				api: blogApi
+			}
+		};
 	},
 
 	parsePayload: function() {
@@ -59,21 +67,7 @@ var RootComponent = React.createClass({
 			<div id="root">
 				<header className="main-header">
 					<div className="vertical">
-						<section className="setup-box">
-							<form className="setup-form" onSubmit={this.onLogin}>
-								<div className="email-wrap">
-									<span className="icon input-icon icon-mail">
-										<input className="email" autoCapitalize="off" autoCorrect="off" autoFocus="" placeholder="Email Address" ref="email" type="email" />
-									</span>
-								</div>
-								<div className="password-wrap">
-									<span className="icon input-icon icon-lock">
-										<input className="password" placeholder="Password" ref="password" type="password" />
-									</span>
-								</div>
-								<button className="btn btn-blue login-button" type="submit">own it</button>
-							</form>
-						</section>
+						<Setup payload={payload} blog={this.state.blog} />
 					</div>
 				</header>
 				<div className="site-wrapper" id="site-wrapper">
@@ -90,23 +84,16 @@ var RootComponent = React.createClass({
 			return <div/>;
 		}
 
-		var blog = {
-			title: 'Blog Title',
-			description: 'My awesome blog!1',
-			url: 'http://demo.ublog.io',
-			api: blogApi
-		};
-
 		return (
 			<div id="root">
-				<Navigation blog={blog} toggleMenu={this.toggleMenu} />
+				<Navigation blog={this.state.blog} toggleMenu={this.toggleMenu} />
 				<span className="nav-cover"></span>
 				<div className="site-wrapper" id="site-wrapper">
-					<Header blog={blog} toggleMenu={this.toggleMenu} />
+					<Header blog={this.state.blog} toggleMenu={this.toggleMenu} />
 					<main id="content" className="content" role="main">
 						<Posts />
 					</main>
-					<Footer blog={blog}/>
+					<Footer blog={this.state.blog}/>
 				</div>
 			</div>
 			);
