@@ -84,21 +84,18 @@ function deletePost() {
 
 // User related functions
 function getUser(uid, cb) {
-	uid = parseInt(uid, 10);
-
-	rclient.hgetall('uid:' + uid, function (err, res) {
-		if (err) {
-			res.error = 'Database access error';
-		}
-
-		cb(res);
-	});
-
+	auth.getUser(rclient, uid, cb);
 }
 
 function createUser(user, cb) {
 	auth.registerNewUser(rclient, user, 'owner', function (uid) {
 		cb({ uid: uid });
+	});
+}
+
+function loginUser(user, cb) {
+	auth.checkUserPassword(rclient, user.email, user.password, function (err, userObj) {
+		cb({user: userObj});
 	});
 }
 
@@ -112,6 +109,7 @@ var blogApi = {
 	updatePost: updatePost,
 	deletePost: deletePost,
 	getUser: getUser,
-	createUser: createUser
+	createUser: createUser,
+	loginUser: loginUser
 }
 module.exports = blogApi;

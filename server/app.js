@@ -75,7 +75,7 @@ app.post('/api/user', function (req, res, next) {
 			blogApi.createUser(params.info, userCallback);
 			break;
 		case 'login':
-			blogApi.login(params.info, userCallback);
+			blogApi.loginUser(params.info, userCallback);
 			break;
 		default:
 			return res.send('Unimplemented');
@@ -87,9 +87,9 @@ app.get('/api/*', function (req, res) {
 });
 
 // Admin / setup area
-app.get('/ublog', function (req, res, next) {
+/*app.get('/setup', function (req, res, next) {
 	res.send('Unimplemented');
-});
+});*/
 
 // Catch-all handler
 app.get('*', function (req, res, next) {

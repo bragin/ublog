@@ -155,11 +155,52 @@ var auth = {
 		});
 	},
 
+	getUser: function(r, uid, cb) {
+		uid = parseInt(uid, 10);
+
+		r.hgetall('user:' + uid, function (err, res) {
+			if (err) {
+				res.error = 'Database access error';
+			}
+
+			cb(res);
+		});
+	},
+
 	getUserIdByEmail: function (r, email, cb) {
 		email = email.trim().substring(0, 254);
 
 		r.hget('lookups:user.email', email, function (err, uid) {
 			cb(err, uid);
+		});
+	},
+
+	/* Errors:
+	   1 - Invalid data
+	   2 - User not found
+	   3 - Wrong password
+	*/
+	checkUserPassword: function (r, email, password, cb) {
+
+		if (!email || !password) return cb(1);
+
+		// Sanitize user-supplied data
+		email = email.trim().substring(0, 254);
+		password = password.toString().trim().substring(0, 64);
+
+		auth.getUserIdByEmail(r, email, function (err, uid) {
+			if (!uid) return cb(2);
+
+			auth.getUser(r, uid, function (userObj) {
+				var passHash = cryptPassword(password, userObj.pass);
+
+				if (passHash != userObj.pass) return cb(3);
+
+				cb(null, {
+					email: userObj.email,
+					created: userObj.created
+				});
+			});
 		});
 	},
 

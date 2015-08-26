@@ -59,8 +59,8 @@ var RootComponent = React.createClass({
 		console.log(payload);
 
 		if (!payload || !payload.firstSetup) {
-			navigate('/', true);
-			return <div/>;
+			setTimeout(function() { navigate('/'); }, 100);
+			return <div>This blog has already been set up.</div>;
 		}
 
 		return (
@@ -80,7 +80,7 @@ var RootComponent = React.createClass({
 
 		// Redirect to the first setup page if necessary
 		if (payload && payload.firstSetup) {
-			navigate('/setup', true);
+			setTimeout(function() { navigate('/setup'); }, 100);
 			return <div/>;
 		}
 
@@ -110,7 +110,7 @@ var RootComponent = React.createClass({
 	}
 });
 
-React.render( 
+React.render(
    <RootComponent history='true' />, 
    document.getElementById('page')
 );
