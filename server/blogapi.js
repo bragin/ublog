@@ -93,10 +93,20 @@ function createUser(user, cb) {
 	});
 }
 
-function loginUser(user, cb) {
+function loginUser(user, session, cb) {
 	auth.checkUserPassword(rclient, user.email, user.password, function (err, userObj) {
+		session.user = userObj;
 		cb({user: userObj});
 	});
+}
+
+function logoutUser(session, cb) {
+	session.user = null;
+	cb();
+}
+
+function isLogged(session, cb) {
+	cb(session.user);
 }
 
 // Exported object
@@ -110,6 +120,8 @@ var blogApi = {
 	deletePost: deletePost,
 	getUser: getUser,
 	createUser: createUser,
-	loginUser: loginUser
+	loginUser: loginUser,
+	logoutUser: logoutUser,
+	isLogged: isLogged
 }
 module.exports = blogApi;

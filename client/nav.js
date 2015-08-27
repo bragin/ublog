@@ -17,12 +17,31 @@ var LoginBox = React.createClass({
 		}, this.onLoginCallback)
 	},
 
-	onLoginCallback: function(err, res) {
-		console.log(err, res);
+	onLoginCallback: function(res) {
+		this.props.events.onLogin(res);
+	},
+
+	onLogout: function(e) {
+		e.preventDefault();
+
+		this.props.blog.api.login({
+			action: 'logout'
+		}, this.onLogoutCallback)
+	},
+
+	onLogoutCallback: function(err) {
+		this.props.events.onLogout();
 	},
 
 	render: function () {
-		return (
+		var loginBox = null;
+
+		if (this.props.blog.user) {
+			loginBox = <form id="login" className="login-form" onSubmit={this.onLogout}>
+					<button className="btn btn-blue login-button" type="submit">Sign out</button>
+				</form>;
+		} else {
+			loginBox = (
 				<form id="login" className="login-form" onSubmit={this.onLogin}>
 					<div className="email-wrap">
 						<span className="icon input-icon icon-mail">
@@ -35,8 +54,10 @@ var LoginBox = React.createClass({
 						</span>
 					</div>
 					<button className="btn btn-blue login-button" type="submit">Sign in</button>
-				</form>
-		);
+				</form>);
+		}
+
+		return loginBox;
 	}
 });
 
@@ -49,11 +70,11 @@ var Navigation = React.createClass({
 		return (
 			<div className="nav">
 				<h3 className="nav-title">Menu</h3>
-				<a href="#" className="nav-close" onClick={this.props.toggleMenu}>
+				<a href="#" className="nav-close" onClick={this.props.events.toggleMenu}>
 					<span className="hidden">Close</span>
 				</a>
 
-				<LoginBox blog={this.props.blog} />
+				<LoginBox blog={this.props.blog} events={this.props.events} />
 			</div>
 				);
 	}

@@ -75,7 +75,10 @@ app.post('/api/user', function (req, res, next) {
 			blogApi.createUser(params.info, userCallback);
 			break;
 		case 'login':
-			blogApi.loginUser(params.info, userCallback);
+			blogApi.loginUser(params.info, req.session, userCallback);
+			break;
+		case 'logout':
+			blogApi.logoutUser(req.session, userCallback);
 			break;
 		default:
 			return res.send('Unimplemented');
@@ -94,15 +97,18 @@ app.get('/api/*', function (req, res) {
 // Catch-all handler
 app.get('*', function (req, res, next) {
 
-	var tasks = [function (cb) {
-		// Check if it's first time setup by querying userid 1
-		blogApi.getUser(1, function (userObj) {
-			cb(null, userObj);
-		});
-	},
-	function (cb) {
-		cb(null, null);
-	}];
+	var tasks = [
+		function (cb) {
+			// Check if it's first time setup by querying userid 1
+			blogApi.getUser(1, function (userObj) {
+				cb(null, userObj);
+			});
+		},
+		function (cb) {
+			blogApi.isLogged(req.session, function (userObj) {
+				cb(null, userObj);
+			});
+		}];
 
 	async.parallel(tasks, function (err, qres) {
 		var firstSetup = false;
@@ -113,9 +119,7 @@ app.get('*', function (req, res, next) {
 
 		var payload = {
 			firstSetup: firstSetup,
-			user: {
-				name: 'placeholder' //req.session.username
-			},
+			user: qres[1],
 			config: {
 				url: nconf.get('url')
 			}

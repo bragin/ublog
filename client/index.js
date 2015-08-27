@@ -22,14 +22,16 @@ var RootComponent = React.createClass({
 		'/'     : 'home', // front page
 	},
 
+	events: {},
+
 	getInitialState: function() {
 		return {
-			blog: {
-				title: 'Blog Title',
-				description: 'My awesome blog!1',
-				url: 'http://demo.ublog.io',
-				api: blogApi
-			}
+			firstSetup: false,
+			title: 'Blog Title',
+			description: 'My awesome blog!1',
+			url: 'http://demo.ublog.io',
+			api: blogApi,
+			user: null
 		};
 	},
 
@@ -50,15 +52,39 @@ var RootComponent = React.createClass({
 		body.classList.toggle('nav-opened');
 	},
 
+	componentWillMount: function() {
+		// Create the events object for children
+		this.events.onLogin = this.onLogin;
+		this.events.onLogout = this.onLogout;
+		this.events.toggleMenu = this.toggleMenu;
+
+		// Parse the payload into the state
+		var payload = this.parsePayload();
+
+		this.setState({
+			firstSetup: payload.firstSetup,
+			user: payload.user
+		});
+	},
+
+	// Events for children
+	onLogin: function (res) {
+		this.setState({
+			user: res.user
+		});
+	},
+	onLogout: function() {
+		this.setState({
+			user: null
+		});
+	},
+
 	// Router functions
 	render: function() {
 		return this.renderCurrentRoute();
 	},
 	setup: function() {
-		var payload = this.parsePayload();
-		console.log(payload);
-
-		if (!payload || !payload.firstSetup) {
+		if (this.state.firstSetup) {
 			setTimeout(function() { navigate('/'); }, 100);
 			return <div>This blog has already been set up.</div>;
 		}
@@ -67,7 +93,7 @@ var RootComponent = React.createClass({
 			<div id="root">
 				<header className="main-header">
 					<div className="vertical">
-						<Setup payload={payload} blog={this.state.blog} />
+						<Setup blog={this.state} />
 					</div>
 				</header>
 				<div className="site-wrapper" id="site-wrapper">
@@ -75,25 +101,22 @@ var RootComponent = React.createClass({
 			</div>);
 	},
 	home: function() {
-
-		var payload = this.parsePayload();
-
 		// Redirect to the first setup page if necessary
-		if (payload && payload.firstSetup) {
+		if (this.state.firstSetup) {
 			setTimeout(function() { navigate('/setup'); }, 100);
 			return <div/>;
 		}
 
 		return (
 			<div id="root">
-				<Navigation blog={this.state.blog} toggleMenu={this.toggleMenu} />
+				<Navigation blog={this.state} events={this.events} />
 				<span className="nav-cover"></span>
 				<div className="site-wrapper" id="site-wrapper">
-					<Header blog={this.state.blog} toggleMenu={this.toggleMenu} />
+					<Header blog={this.state} toggleMenu={this.toggleMenu} />
 					<main id="content" className="content" role="main">
 						<Posts />
 					</main>
-					<Footer blog={this.state.blog}/>
+					<Footer blog={this.state}/>
 				</div>
 			</div>
 			);
