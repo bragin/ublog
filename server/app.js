@@ -10,6 +10,7 @@ var async = require('async');
 var relativePath = require("./relativepath");
 var themes = require('./themes');
 var blogApi = require('./blogapi');
+var errCodes = require('../client/errcodes.js');
 
 var app = express();
 

@@ -1309,7 +1309,7 @@ body.nav-opened .nav {
     display: inline-block;
     clear: both;
     padding: 8px 0 8px 8px;
-    width: 164px;
+    width: 162px;
 
     line-height: 21px;
     font-size: 15px;
@@ -1330,6 +1330,10 @@ body.nav-opened .nav {
 
 .login-form .login-button {
     width: 100%;
+}
+
+.danger-outline {
+	border: 1px solid red;
 }
 
 /* New user setup form */

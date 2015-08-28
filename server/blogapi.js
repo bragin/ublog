@@ -96,7 +96,7 @@ function createUser(user, cb) {
 function loginUser(user, session, cb) {
 	auth.checkUserPassword(rclient, user.email, user.password, function (err, userObj) {
 		session.user = userObj;
-		cb({user: userObj});
+		cb({err: err, user: userObj});
 	});
 }
 

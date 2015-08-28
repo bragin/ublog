@@ -1,7 +1,8 @@
 "use strict";
 
 var crypto = require('crypto'),
-	async = require('async');
+	async = require('async'),
+	errCodes = require('../client/errcodes.js');
 
 // Authentication related API. Coincidentally password hashes are Drupal compatible
 
@@ -182,19 +183,19 @@ var auth = {
 	*/
 	checkUserPassword: function (r, email, password, cb) {
 
-		if (!email || !password) return cb(1);
+		if (!email || !password) return cb(errCodes.InvalidData);
 
 		// Sanitize user-supplied data
 		email = email.trim().substring(0, 254);
 		password = password.toString().trim().substring(0, 64);
 
 		auth.getUserIdByEmail(r, email, function (err, uid) {
-			if (!uid) return cb(2);
+			if (!uid) return cb(errCodes.UserNotFound);
 
 			auth.getUser(r, uid, function (userObj) {
 				var passHash = cryptPassword(password, userObj.pass);
 
-				if (passHash != userObj.pass) return cb(3);
+				if (passHash != userObj.pass) return cb(errCodes.InvalidPassword);
 
 				cb(null, {
 					email: userObj.email,
@@ -228,14 +229,14 @@ var auth = {
 	openOneTimeToken: function (redis, token, cb) {
 		// Check token length
 		if (token.length != 64) {
-			cb(1);
+			cb(errCodes.InvalidData);
 			return;
 		}
 
 		// Open it
 		var key = 'ott:' + token;
 		redis.hgetall(key, function (err, val) {
-			if (err || !val) return cb(1);
+			if (err || !val) return cb(errCodes.InvalidData);
 			var data = val.data;
 			if (data != null) data = JSON.parse(data);
 			cb(null, val.type, val.uid, data, val.ip);

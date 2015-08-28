@@ -2,7 +2,11 @@
 Small and powerful blogging engine using Node and React
 
 ## Tech Details
-- No huge frameworks. Only bare minimum: node.js + Express, React + Webpack
+- Based on node.js + Express
+- React and Webpack at its core
+- Redis as a storage
+- No huge frameworks
+- No jQuery
 - No syntax sugar. Less code = less bugs = less security vulnerabilities
 
 ## Installation
