@@ -94,7 +94,12 @@ function createUser(user, cb) {
 }
 
 function loginUser(user, session, cb) {
-	auth.checkUserPassword(rclient, user.email, user.password, function (err, userObj) {
+	auth.checkUserPassword(rclient, user.email, user.password, function (err, userObj, uid) {
+
+		// Always promote userid 1 to owner
+		if (uid == 1)
+			userObj.permissions.owner = true;
+
 		session.user = userObj;
 		cb({err: err, user: userObj});
 	});

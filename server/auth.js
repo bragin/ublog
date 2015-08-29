@@ -199,8 +199,10 @@ var auth = {
 
 				cb(null, {
 					email: userObj.email,
-					created: userObj.created
-				});
+					created: userObj.created,
+					permissions: {}
+				},
+				uid);
 			});
 		});
 	},

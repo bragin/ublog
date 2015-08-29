@@ -63,12 +63,17 @@ var Header = React.createClass({
 				</nav>;
 		}
 
+		var blogTitle = <h1 className="page-title">{blog.title}</h1>;
+
+		if (blog.user && blog.user.permissions.owner)
+			blogTitle = <textarea className="page-title-edit" rows={1} autoComplete="off">{blog.title}</textarea>;
+
 		return (
 			<header className="main-header">
 				{nav}
 				<div className="vertical">
 					<div className="main-header-content inner">
-					  <h1 className="page-title">{blog.title}</h1>
+					  {blogTitle}
 					  <h2 className="page-description">{blog.description}</h2>
 					</div>
 				</div>
