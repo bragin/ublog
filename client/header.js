@@ -5,6 +5,9 @@ var React = require('react');
 
 // The big featured header
 var Header = React.createClass({
+
+	saveTimer: null,
+
 	onScrollBtn: function(e) {
 
 		// Don't propogate the event any further
@@ -45,6 +48,53 @@ var Header = React.createClass({
 		}
 	},
 
+	saveChanges: function() {
+		var blog = this.props.blog;
+		var api = blog.api;
+
+		// Get data to determine what changed
+		var titleNode = this.refs.pageTitle.getDOMNode();
+		var descNode = this.refs.pageDesc.getDOMNode();
+		var title = titleNode.value;
+		var desc = descNode.value;
+
+		if (blog.title == title) title = null;
+		if (blog.description == desc) desc = null;
+
+		if (!title && !desc) return;
+
+		if (title) titleNode.classList.add('saving');
+		if (desc) descNode.classList.add('saving');
+
+		api.setSiteInfo({title: title, desc: desc}, this.saveChangesCompleted);
+	},
+
+	saveChangesCompleted: function(err, info) {
+		var titleNode = this.refs.pageTitle.getDOMNode();
+		var descNode = this.refs.pageDesc.getDOMNode();
+		titleNode.classList.remove('saving');
+		descNode.classList.remove('saving');
+
+		// Propogate the new site object to the root component
+		// Rerender won't happen because textarea already contains updated text
+		if (info) this.props.events.onSiteInfoUpdate(info);
+	},
+
+	onFocusBlogTitle: function(e) {
+		//console.log('onFocus');
+	},
+
+	onBlurBlogTitle: function(e) {
+		// Clear the timer because we're going to save right away
+		if (this.saveTimer) clearTimeout(this.saveTimer);
+		this.saveChanges();
+	},
+
+	onInfoKeyPress: function(e) {
+		if (this.saveTimer) clearTimeout(this.saveTimer);
+		this.saveTimer = setTimeout(this.saveChanges, 1000);
+	},
+
 	render: function() {
 
 		var props = this.props;
@@ -64,9 +114,20 @@ var Header = React.createClass({
 		}
 
 		var blogTitle = <h1 className="page-title">{blog.title}</h1>;
+		var blogDesc = <h2 className="page-description">{blog.description}</h2>;
 
-		if (blog.user && blog.user.permissions.owner)
-			blogTitle = <textarea className="page-title-edit" rows={1} autoComplete="off">{blog.title}</textarea>;
+		if (blog.user && blog.user.permissions.owner) {
+			blogTitle = <textarea className="page-title-edit"
+								ref="pageTitle" rows={1} autoComplete="off" defaultValue={blog.title}
+								onFocus={this.onFocusBlogTitle}
+								onBlur={this.onBlurBlogTitle}
+								onKeyPress={this.onInfoKeyPress}/>;
+			blogDesc = <textarea className="page-description-edit"
+								ref="pageDesc" rows={1} autoComplete="off" defaultValue={blog.description}
+								onFocus={this.onFocusBlogTitle}
+								onBlur={this.onBlurBlogTitle}
+								onKeyPress={this.onInfoKeyPress} />;
+		}
 
 		return (
 			<header className="main-header">
@@ -74,7 +135,7 @@ var Header = React.createClass({
 				<div className="vertical">
 					<div className="main-header-content inner">
 					  {blogTitle}
-					  <h2 className="page-description">{blog.description}</h2>
+					  {blogDesc}
 					</div>
 				</div>
 				<a className="scroll-down icon-arrow-left" href="#content" data-offset={-45} onClick={this.onScrollBtn}><span className="hidden">Scroll Down</span></a>

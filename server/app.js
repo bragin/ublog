@@ -86,6 +86,27 @@ app.post('/api/user', function (req, res, next) {
 	}
 });
 
+// Site-wide APIs
+app.post('/api/site', function (req, res, next) {
+	function userCallback(replyObj) {
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(replyObj));
+	}
+
+	var params = req.body;
+	if (!params.op) return res.status(500).send('Bad API request');
+
+	var replyObj = null;
+
+	switch (params.op) {
+		case 'saveInfo':
+			blogApi.setSiteInfo(params.info, userCallback);
+			break;
+		default:
+			return res.send('Unimplemented');
+	}
+});
+
 app.get('/api/*', function (req, res) {
 	res.status(500).send('Bad API request');
 });

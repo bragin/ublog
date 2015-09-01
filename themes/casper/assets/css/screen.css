@@ -309,9 +309,9 @@ table { border-collapse: collapse; border-spacing: 0; }
 .icon-arrow-right:before {
     content: "\e01a";
 }
-.icon-arrow-left:before {
+/*.icon-arrow-left:before {
     content: "\e026";
-}
+}*/
 .icon-arrow-up:before {
     content: "\e027";
 }
@@ -1457,6 +1457,7 @@ body.nav-opened .nav {
 
 /* Same for editing */
 .page-title-edit {
+	width:100%;
 	margin: 10px 0 10px 0;
 	padding: 0;
 	font-size: 5rem;
@@ -1479,6 +1480,36 @@ body.nav-opened .nav {
 
 .page-title-edit:hover {
 	border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.page-description-edit {
+	width:100%;
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.5em;
+    font-weight: 400;
+    font-family: "Merriweather", serif;
+    letter-spacing: 0.01rem;
+    color: rgba(255,255,255,0.8);
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid transparent;
+	vertical-align: middle;
+	outline: none;
+	overflow: hidden;
+	resize: none;
+	text-align: center;
+
+	webkit-transition: .3s cubic-bezier(0.4,0,0.2,1) all;
+	transition: .3s cubic-bezier(0.4,0,0.2,1) all;
+}
+
+.page-description-edit:hover {
+	border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.saving {
+	background: gray;
 }
 
 .no-cover.main-header {

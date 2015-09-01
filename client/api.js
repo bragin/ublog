@@ -40,6 +40,21 @@ api.xhr = {
 				cb(body);
 		})
 	},
+	setSiteInfo: function (info, cb) {
+		xhr({
+			json: {
+				op: 'saveInfo',
+				info: info
+			},
+			method: 'POST',
+			uri: '/api/site'
+		}, function (err, resp, body) {
+			if (resp.statusCode != 200)
+				cb(null);
+			else
+				cb(body);
+		})
+	},
 	getPosts: function (query, cb) {
 		xhr({
 			json: query,
@@ -67,10 +82,15 @@ function getPosts(query, cb) {
 	api[prot].getPosts(query, cb);
 }
 
+function setSiteInfo(info, cb) {
+	api[prot].setSiteInfo(info, cb);
+}
+
 var blogApi = {
 	login: login,
 	createUser: createUser,
-	getPosts: getPosts
+	getPosts: getPosts,
+	setSiteInfo: setSiteInfo
 }
 
 module.exports = blogApi

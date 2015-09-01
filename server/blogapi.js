@@ -36,9 +36,16 @@ function close() {
 	if (rclient) rclient.quit();
 }
 
-// Blog api
-function getBlogInfo() {
+// Site-wide APIs
+function getSiteInfo() {
 
+}
+
+function setSiteInfo(info, cb) {
+	console.log(info);
+	cb(null, {
+		title: 'Blaaah'
+	});
 }
 
 // Posts api
@@ -118,7 +125,8 @@ function isLogged(session, cb) {
 var blogApi = {
 	init: init,
 	close: close,
-	getBlogInfo: getBlogInfo,
+	getSiteInfo: getSiteInfo,
+	setSiteInfo: setSiteInfo,
 	getPosts: getPosts,
 	createPost: createPost,
 	updatePost: updatePost,

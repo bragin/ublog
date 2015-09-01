@@ -78,6 +78,18 @@ var RootComponent = React.createClass({
 			user: null
 		});
 	},
+	onSiteInfoUpdate: function(info) {
+		var title = info.title;
+		var desc = info.desc;
+
+		if (!title) title = this.state.title;
+		if (!desc) desc = this.state.desc;
+
+		this.setState({
+			title: title,
+			desc: desc
+		});
+	},
 
 	// Router functions
 	render: function() {
