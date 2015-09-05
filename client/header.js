@@ -69,15 +69,18 @@ var Header = React.createClass({
 		api.setSiteInfo({title: title, desc: desc}, this.saveChangesCompleted);
 	},
 
-	saveChangesCompleted: function(err, info) {
+	saveChangesCompleted: function(res) {
 		var titleNode = this.refs.pageTitle.getDOMNode();
 		var descNode = this.refs.pageDesc.getDOMNode();
 		titleNode.classList.remove('saving');
 		descNode.classList.remove('saving');
 
 		// Propogate the new site object to the root component
-		// Rerender won't happen because textarea already contains updated text
-		if (info) this.props.events.onSiteInfoUpdate(info);
+		if (res) this.props.events.onSiteInfoUpdate(res);
+
+		// Rerender won't happen because textareas are not managed by React. So update them ourselves
+		if (res.title) titleNode.value = res.title;
+		if (res.desc) descNode.value = res.desc;
 	},
 
 	onFocusBlogTitle: function(e) {
@@ -109,7 +112,7 @@ var Header = React.createClass({
 		if (true) {
 			nav = <nav className="main-nav overlay clearfix">
 					{logo}
-					<a className="menu-button icon-menu" href="#" onClick={this.props.toggleMenu}><span className="word">Menu</span></a>
+					<a className="menu-button icon-menu" href="#" onClick={this.props.events.toggleMenu}><span className="word">Menu</span></a>
 				</nav>;
 		}
 

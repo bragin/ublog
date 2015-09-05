@@ -99,8 +99,11 @@ app.post('/api/site', function (req, res, next) {
 	var replyObj = null;
 
 	switch (params.op) {
-		case 'saveInfo':
+		case 'setInfo':
 			blogApi.setSiteInfo(params.info, userCallback);
+			break;
+		case 'getInfo':
+			blogApi.getSiteInfo(userCallback);
 			break;
 		default:
 			return res.send('Unimplemented');
@@ -130,7 +133,13 @@ app.get('*', function (req, res, next) {
 			blogApi.isLogged(req.session, function (userObj) {
 				cb(null, userObj);
 			});
-		}];
+		},
+		function (cb) {
+			blogApi.getSiteInfo(function (siteInfo) {
+				cb(null, siteInfo);
+			});
+		},
+	];
 
 	async.parallel(tasks, function (err, qres) {
 		var firstSetup = false;
@@ -142,6 +151,7 @@ app.get('*', function (req, res, next) {
 		var payload = {
 			firstSetup: firstSetup,
 			user: qres[1],
+			site: qres[2],
 			config: {
 				url: nconf.get('url')
 			}

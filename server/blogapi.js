@@ -37,14 +37,30 @@ function close() {
 }
 
 // Site-wide APIs
-function getSiteInfo() {
+function getSiteInfo(cb) {
+	rclient.hgetall('site', function (err, siteInfo) {
+		if (!siteInfo) siteInfo = {};
+		if (!siteInfo.title) siteInfo.title = 'My new blog title';
+		if (!siteInfo.description) siteInfo.description = 'Describe your blog here';
 
+		cb(siteInfo);
+	});
 }
 
 function setSiteInfo(info, cb) {
-	console.log(info);
-	cb(null, {
-		title: 'Blaaah'
+	var dbObj = {};
+
+	if (info.title)
+		dbObj.title = info.title.trim().substring(0, 10);
+
+	if (info.desc)
+		dbObj.description = info.desc.trim().substring(0, 200);
+
+	rclient.hmset('site', dbObj, function (err) {
+		cb({
+			title: dbObj.title,
+			desc: dbObj.description
+		});
 	});
 }
 

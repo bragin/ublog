@@ -43,8 +43,22 @@ api.xhr = {
 	setSiteInfo: function (info, cb) {
 		xhr({
 			json: {
-				op: 'saveInfo',
+				op: 'setInfo',
 				info: info
+			},
+			method: 'POST',
+			uri: '/api/site'
+		}, function (err, resp, body) {
+			if (resp.statusCode != 200)
+				cb(null);
+			else
+				cb(body);
+		})
+	},
+	getSiteInfo: function (cb) {
+		xhr({
+			json: {
+				op: 'getInfo'
 			},
 			method: 'POST',
 			uri: '/api/site'
@@ -86,11 +100,16 @@ function setSiteInfo(info, cb) {
 	api[prot].setSiteInfo(info, cb);
 }
 
+function getSiteInfo(cb) {
+	api[prot].getSiteInfo(cb);
+}
+
 var blogApi = {
 	login: login,
 	createUser: createUser,
 	getPosts: getPosts,
-	setSiteInfo: setSiteInfo
+	setSiteInfo: setSiteInfo,
+	getSiteInfo: getSiteInfo
 }
 
 module.exports = blogApi

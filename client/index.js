@@ -57,12 +57,15 @@ var RootComponent = React.createClass({
 		this.events.onLogin = this.onLogin;
 		this.events.onLogout = this.onLogout;
 		this.events.toggleMenu = this.toggleMenu;
+		this.events.onSiteInfoUpdate = this.onSiteInfoUpdate;
 
 		// Parse the payload into the state
 		var payload = this.parsePayload();
 
 		this.setState({
 			firstSetup: payload.firstSetup,
+			title: payload.site.title,
+			description: payload.site.description,
 			user: payload.user
 		});
 	},
@@ -83,11 +86,11 @@ var RootComponent = React.createClass({
 		var desc = info.desc;
 
 		if (!title) title = this.state.title;
-		if (!desc) desc = this.state.desc;
+		if (!desc) desc = this.state.description;
 
 		this.setState({
 			title: title,
-			desc: desc
+			description: desc
 		});
 	},
 
@@ -124,7 +127,7 @@ var RootComponent = React.createClass({
 				<Navigation blog={this.state} events={this.events} />
 				<span className="nav-cover"></span>
 				<div className="site-wrapper" id="site-wrapper">
-					<Header blog={this.state} toggleMenu={this.toggleMenu} />
+					<Header blog={this.state} events={this.events} />
 					<main id="content" className="content" role="main">
 						<Posts />
 					</main>
