@@ -13,7 +13,7 @@ var themes = {
 
 	helpers: {
 		asset: function (context, options) {
-			var output = '/themes/casper/assets/' + context; // FIXME: Hardcoded for now
+			var output = '/themes/' + themes.active + '/assets/' + context; // FIXME: Hardcoded for now
 			return new handlebars.SafeString(output);
 		},
 		author: function (context, options) {

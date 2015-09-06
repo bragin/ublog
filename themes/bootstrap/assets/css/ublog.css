@@ -1,0 +1,421 @@
+/* Creates a responsive wrapper that makes our content scale nicely */
+.inner {
+    position: relative;
+    width: 80%;
+    max-width: 710px;
+    margin: 0 auto;
+}
+
+/* Centres vertically yo. (IE8+) */
+.vertical {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/*
+	Sidebar (inspired by https://github.com/IronSummitMedia/startbootstrap-simple-sidebar)
+*/
+#root {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#root.sidebar-open {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #000;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#root.sidebar-open #sidebar-wrapper {
+    width: 250px;
+}
+
+#site-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 0;
+}
+
+#root.sidebar-open #site-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+@media(min-width:768px) {
+    #site-wrapper {
+        padding: 0;
+        position: relative;
+    }
+
+    #root.sidebar-open #site-wrapper {
+        position: relative;
+        margin-right: -250px;
+    }
+}
+
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0 20px;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    /*text-indent: 20px;*/
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+/* 
+	Setup page
+*/
+.setup-box .form-inline > * {
+   margin:5px 3px;
+}
+
+/*
+	Site Header
+*/
+
+/* Big cover image on the home page */
+.main-header {
+    position: relative;
+    display: table;
+    width: 100%;
+    height: 100vh;
+    margin-bottom: 3.13rem;
+    text-align: center;
+    background: #222 no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.main-header .inner {
+    width: 80%;
+}
+
+/* The details of your blog. Defined in ghost/settings/ */
+.page-title {
+    margin: 10px 0 10px 0;
+    font-size: 3.15rem;
+    letter-spacing: -1px;
+    font-weight: 700;
+    font-family: "Open Sans", sans-serif;
+    color: #fff;
+}
+
+.page-description {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.5em;
+    font-weight: 400;
+    font-family: "Merriweather", serif;
+    letter-spacing: 0.01rem;
+    color: rgba(255,255,255,0.8);
+}
+
+/* Same for editing */
+.page-title-edit {
+	width:100%;
+	margin: 10px 0 10px 0;
+	padding: 0;
+	font-size: 3.15rem;
+	letter-spacing: -1px;
+	font-weight: 700;
+	font-family: "Open Sans", sans-serif;
+	border: none;
+	border-bottom: 1px solid transparent;
+	background: transparent;
+	color: #fff;
+	vertical-align: middle;
+	outline: none;
+	overflow: hidden;
+	resize: none;
+	text-align: center;
+
+	webkit-transition: .3s cubic-bezier(0.4,0,0.2,1) all;
+	transition: .3s cubic-bezier(0.4,0,0.2,1) all;
+}
+
+.page-title-edit:hover {
+	border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.page-description-edit {
+	width:100%;
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.5em;
+    font-weight: 400;
+    font-family: "Merriweather", serif;
+    letter-spacing: 0.01rem;
+    color: rgba(255,255,255,0.8);
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid transparent;
+	vertical-align: middle;
+	outline: none;
+	overflow: hidden;
+	resize: none;
+	text-align: center;
+
+	webkit-transition: .3s cubic-bezier(0.4,0,0.2,1) all;
+	transition: .3s cubic-bezier(0.4,0,0.2,1) all;
+}
+
+.page-description-edit:hover {
+	border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.saving {
+	background: gray;
+}
+
+/* Create a bouncing scroll-down arrow on homepage with cover image */
+.scroll-down {
+    display: block;
+    position: absolute;
+    z-index: 100;
+    bottom: 45px;
+    left: 50%;
+    margin-left: -16px;
+    width: 34px;
+    height: 34px;
+    font-size: 3.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: rgba(255,255,255,0.7);
+    -webkit-animation: bounce 4s 2s infinite;
+    animation: bounce 4s 2s infinite;
+}
+
+/* Stop it bouncing and increase contrast when hovered */
+.scroll-down:hover {
+    color: #fff;
+    -webkit-animation: none;
+    animation: none;
+}
+
+/*
+	Posts
+*/
+.post a {
+	color: #4a4a4a;
+	transition: color 0.3s ease;
+}
+
+.post a:hover {
+	color: #111;
+}
+
+/* Every post, on every page, gets this style on its <article> tag */
+.post {
+    position: relative;
+    width: 80%;
+    max-width: 710px;
+    margin: 2.5rem auto;
+    padding-bottom: 2.5rem;
+    border-bottom: #EBF2F6 1px solid;
+    word-wrap: break-word;
+}
+
+/* Add a little circle in the middle of the border-bottom on our .post
+   just for the lolz and stylepoints. */
+.post:after {
+    display: block;
+    content: "";
+    width: 7px;
+    height: 7px;
+    border: #E7EEF2 1px solid;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    margin-left: -5px;
+    background: #FFF;
+    border-radius: 100%;
+    box-shadow: #FFF 0 0 0 5px;
+}
+
+body:not(.post-template) .post-title {
+    font-size: 2.25rem;
+	font-weight: bold;
+}
+
+.post-title a {
+    text-decoration: none;
+}
+
+.post-excerpt p {
+    margin: 0;
+    line-height: 1.7em;
+	color:#3A4145;
+	font-family: "Merriweather", serif;
+}
+
+.read-more {
+    text-decoration: none;
+}
+
+.post-meta {
+    display: block;
+    margin: 1.1rem 0 0 0;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.94rem;
+    line-height: 1.38rem;
+    color: #9EABB3;
+}
+
+.author-thumb {
+    width: 24px;
+    height: 24px;
+    float: left;
+    margin-right: 9px;
+    border-radius: 100%;
+}
+
+.post-meta a {
+    color: #9EABB3;
+    text-decoration: none;
+}
+
+.post-meta a:hover {
+    text-decoration: underline;
+}
+
+.user-meta {
+    position: relative;
+    padding: 0.3rem 40px 0 100px;
+    min-height: 77px;
+}
+
+.post-date {
+    display: inline-block;
+    margin-left: 8px;
+    padding-left: 12px;
+    border-left: #d5dbde 1px solid;
+    text-transform: uppercase;
+    font-size: 0.81rem;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   Footer - The bottom of every page
+   ========================================================================== */
+
+.site-footer {
+    position: relative;
+    margin: 5rem 0 0 0;
+    padding: 0.63rem 15px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 0.63rem;
+    line-height: 1.75em;
+    color: #BBC7CC;
+}
+
+.site-footer a {
+    color: #BBC7CC;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.site-footer a:hover {
+    border-bottom: #bbc7cc 1px solid;
+}
+
+.poweredby {
+    display: block;
+    width: 45%;
+    float: right;
+    text-align: right;
+}
+
+.copyright {
+    display: block;
+    width: 45%;
+    float: left;
+}
+
+/*
+	Animations
+*/
+/* Used to bounce .scroll-down on home page */
+@-webkit-keyframes bounce {
+    0%, 10%, 25%, 40%, 50% {
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+    }
+    20% {
+        -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+    }
+    30% {
+        -webkit-transform: translateY(-5px);
+                transform: translateY(-5px);
+    }
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+    }
+    40% {
+        -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+    }
+    60% {
+        -webkit-transform: translateY(-5px);
+                transform: translateY(-5px);
+    }
+}

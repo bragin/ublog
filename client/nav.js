@@ -59,25 +59,27 @@ var LoginBox = React.createClass({
 				</form>;
 		} else {
 			// Highlight boxes with invalid data
-			var classEmail = 'email-wrap';
-			var classPassword = 'password-wrap';
+			var classEmail = 'form-group';
+			var classPassword = 'form-group';
 
-			if (this.state.errEmail) classEmail += ' danger-outline';
-			if (this.state.errPassword) classPassword += ' danger-outline';
+			if (this.state.errEmail) classEmail += ' has-error';
+			if (this.state.errPassword) classPassword += ' has-error';
 
 			loginBox = (
-				<form id="login" className="login-form" onSubmit={this.onLogin}>
+				<form onSubmit={this.onLogin}>
 					<div className={classEmail}>
-						<span className="icon input-icon icon-mail">
-							<input className="email" autoCapitalize="off" autoCorrect="off" autoFocus="" placeholder="Email Address" ref="email" type="email" />
-						</span>
+						<div className="input-group">
+							<span className="input-group-addon"><i className="fa fa-envelope-o fa-fw"></i></span>
+							<input className="form-control form-control-sm" autoCapitalize="off" autoCorrect="off" autoFocus="" placeholder="Email Address" ref="email" type="email" />
+						</div>
 					</div>
 					<div className={classPassword}>
-						<span className="icon input-icon icon-lock">
-							<input className="password" placeholder="Password" ref="password" type="password" />
-						</span>
+						<div className="input-group">
+							<span className="input-group-addon"><i className="fa fa-key fa-fw"></i></span>
+							<input className="form-control form-control-sm" placeholder="Password" ref="password" type="password" />
+						</div>
 					</div>
-					<button className="btn btn-blue login-button" type="submit">Sign in</button>
+					<button className="btn btn-sm btn-primary" type="submit">Sign in</button>
 				</form>);
 		}
 
@@ -91,7 +93,7 @@ var Navigation = React.createClass({
 
 		/* <li className="nav-{{slug}}{{#if current}} nav-current{{/if}}" role="presentation"><a href="{{url absolute="true"}}">{{label}}</a></li> */
 
-		return (
+		/*return (
 			<div className="nav">
 				<h3 className="nav-title">Menu</h3>
 				<a href="#" className="nav-close" onClick={this.props.events.toggleMenu}>
@@ -100,7 +102,27 @@ var Navigation = React.createClass({
 
 				<LoginBox blog={this.props.blog} events={this.props.events} />
 			</div>
-				);
+				);*/
+
+		return <div id="sidebar-wrapper">
+					<ul className="sidebar-nav">
+						<li className="sidebar-brand">
+							<a href="#">
+								Menu
+							</a>
+						</li>
+						<li>
+							<a href="#">Services</a>
+						</li>
+						<li>
+							<a href="#">Contact</a>
+						</li>
+						<li>
+							<LoginBox blog={this.props.blog} events={this.props.events} />
+						</li>
+					</ul>
+
+				</div>;
 	}
 });
 

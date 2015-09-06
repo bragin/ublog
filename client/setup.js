@@ -22,24 +22,26 @@ var Setup = React.createClass({
 	},
 
 	onSubmitCallback: function(res) {
-		console.log(res);
+		//console.log(res);
 	},
 
 	render: function() {
 		return (
 				<section className="setup-box">
-					<form className="setup-form" onSubmit={this.onSubmit}>
-						<div className="email-wrap">
-							<span className="icon input-icon icon-mail">
-								<input className="email" autoCapitalize="off" autoCorrect="off" autoFocus="" placeholder="Email Address" ref="email" type="email" />
-							</span>
+					<form className="form-inline" onSubmit={this.onSubmit}>
+						<div className="form-group">
+							<div className="input-group">
+								<span className="input-group-addon"><i className="fa fa-envelope-o fa-fw"></i></span>
+								<input className="form-control" autoCapitalize="off" autoCorrect="off" autoFocus="" placeholder="Email Address" ref="email" type="email" />
+							</div>
 						</div>
-						<div className="password-wrap">
-							<span className="icon input-icon icon-lock">
-								<input className="password" placeholder="Password" ref="password" type="password" />
-							</span>
+						<div className="form-group">
+							<div className="input-group">
+								<span className="input-group-addon"><i className="fa fa-key fa-fw"></i></span>
+								<input className="form-control" placeholder="Password" ref="password" type="password" />
+							</div>
 						</div>
-						<button className="btn btn-blue login-button" type="submit">own it</button>
+						<button className="btn btn-primary" type="submit">Own It</button>
 					</form>
 				</section>
 				);

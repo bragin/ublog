@@ -6,6 +6,7 @@ var RouterMixin = require('react-mini-router').RouterMixin;
 var navigate = require('react-mini-router').navigate;
 
 var Navigation = require('./nav');
+var NavBar = require('./navbar');
 var Header = require('./header');
 var Footer = require('./footer');
 var Posts = require('./posts');
@@ -43,20 +44,19 @@ var RootComponent = React.createClass({
 
 	// This is needed here, because it's called by both menu open button inside Header component
 	// and menu close button in Navigation component. Ugly, needs to be fixed.
-	toggleMenu: function(e) {
+	toggleSidebar: function(e) {
 		e.preventDefault();
 
-		// Do the dirty hack: toggle class in the body element. Proper fix is to change the theme
-		var body = document.body;
-		body.classList.toggle('nav-closed');
-		body.classList.toggle('nav-opened');
+		// Show / hide the sidebar
+		var root = document.getElementById('root');
+		root.classList.toggle('sidebar-open');
 	},
 
 	componentWillMount: function() {
 		// Create the events object for children
 		this.events.onLogin = this.onLogin;
 		this.events.onLogout = this.onLogout;
-		this.events.toggleMenu = this.toggleMenu;
+		this.events.toggleSidebar = this.toggleSidebar;
 		this.events.onSiteInfoUpdate = this.onSiteInfoUpdate;
 
 		// Parse the payload into the state
@@ -99,7 +99,7 @@ var RootComponent = React.createClass({
 		return this.renderCurrentRoute();
 	},
 	setup: function() {
-		if (this.state.firstSetup) {
+		if (!this.state.firstSetup) {
 			setTimeout(function() { navigate('/'); }, 100);
 			return <div>This blog has already been set up.</div>;
 		}
@@ -123,10 +123,10 @@ var RootComponent = React.createClass({
 		}
 
 		return (
-			<div id="root">
+			<div id="root" className="sidebar-open">
 				<Navigation blog={this.state} events={this.events} />
-				<span className="nav-cover"></span>
 				<div className="site-wrapper" id="site-wrapper">
+					<NavBar blog={this.state} events={this.events} />
 					<Header blog={this.state} events={this.events} />
 					<main id="content" className="content" role="main">
 						<Posts />

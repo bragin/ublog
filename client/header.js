@@ -109,10 +109,10 @@ var Header = React.createClass({
 		}
 
 		var nav = null;
-		if (true) {
+		if (false) {
 			nav = <nav className="main-nav overlay clearfix">
 					{logo}
-					<a className="menu-button icon-menu" href="#" onClick={this.props.events.toggleMenu}><span className="word">Menu</span></a>
+					<a className="menu-button icon-menu" href="#" onClick={this.props.events.toggleSidebar}><span className="word">Menu</span></a>
 				</nav>;
 		}
 
@@ -141,7 +141,7 @@ var Header = React.createClass({
 					  {blogDesc}
 					</div>
 				</div>
-				<a className="scroll-down icon-arrow-left" href="#content" data-offset={-45} onClick={this.onScrollBtn}><span className="hidden">Scroll Down</span></a>
+				<a className="scroll-down" href="#content" data-offset={-45} onClick={this.onScrollBtn}><i className="fa fa-angle-down" /><span className="sr-only">Scroll Down</span></a>
 			</header>
 		);
 	}

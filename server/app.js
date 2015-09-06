@@ -29,7 +29,7 @@ blogApi.init();
 
 // Theming
 themes.init(handlebars);
-themes.setTheme('casper');
+themes.setTheme('bootstrap');
 var themeDefault = handlebars.compile(themes.default);
 
 // Routing
