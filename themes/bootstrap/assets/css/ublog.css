@@ -127,6 +127,16 @@
 }
 
 /*
+Navbar overrides
+*/
+#site-wrapper .navbar {
+    position: absolute;
+    width: 100%;
+    top: 0 ;
+    z-index: 12;
+}
+
+/*
 	Site Header
 */
 
