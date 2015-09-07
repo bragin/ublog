@@ -87,7 +87,7 @@ var LoginBox = React.createClass({
 	}
 });
 
-var Navigation = React.createClass({
+var Sidebar = React.createClass({
 
 	render: function () {
 
@@ -126,4 +126,4 @@ var Navigation = React.createClass({
 	}
 });
 
-module.exports = Navigation;
+module.exports = Sidebar;

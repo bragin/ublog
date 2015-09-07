@@ -5,7 +5,7 @@ var React = require('react');
 var RouterMixin = require('react-mini-router').RouterMixin;
 var navigate = require('react-mini-router').navigate;
 
-var Navigation = require('./nav');
+var Sidebar = require('./sidebar');
 var NavBar = require('./navbar');
 var Header = require('./header');
 var Footer = require('./footer');
@@ -123,8 +123,8 @@ var RootComponent = React.createClass({
 		}
 
 		return (
-			<div id="root" className="sidebar-open">
-				<Navigation blog={this.state} events={this.events} />
+			<div id="root">
+				<Sidebar blog={this.state} events={this.events} />
 				<div className="site-wrapper" id="site-wrapper">
 					<NavBar blog={this.state} events={this.events} />
 					<Header blog={this.state} events={this.events} />
