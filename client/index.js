@@ -11,6 +11,7 @@ var Header = require('./header');
 var Footer = require('./footer');
 var Posts = require('./posts');
 var Setup = require('./setup');
+var Editor = require('./editor');
 
 var blogApi = require('./api')
 
@@ -20,6 +21,7 @@ var RootComponent = React.createClass({
 	routes: {
 		'/blah' : 'page1', // Some other page
 		'/setup': 'setup', // First setup
+		'/admin/:page?': 'admin', // Admin pages
 		'/'     : 'home', // front page
 	},
 
@@ -58,6 +60,7 @@ var RootComponent = React.createClass({
 		this.events.onLogout = this.onLogout;
 		this.events.toggleSidebar = this.toggleSidebar;
 		this.events.onSiteInfoUpdate = this.onSiteInfoUpdate;
+		this.events.onBlogSetupCompleted = this.onBlogSetupCompleted;
 
 		// Parse the payload into the state
 		var payload = this.parsePayload();
@@ -93,6 +96,11 @@ var RootComponent = React.createClass({
 			description: desc
 		});
 	},
+	onBlogSetupCompleted: function(res) {
+		this.setState({
+			firstSetup: false
+		});
+	},
 
 	// Router functions
 	render: function() {
@@ -108,7 +116,7 @@ var RootComponent = React.createClass({
 			<div id="root">
 				<header className="main-header">
 					<div className="vertical">
-						<Setup blog={this.state} />
+						<Setup blog={this.state} events={this.events} />
 					</div>
 				</header>
 				<div className="site-wrapper" id="site-wrapper">
@@ -131,6 +139,24 @@ var RootComponent = React.createClass({
 					<main id="content" className="content" role="main">
 						<Posts />
 					</main>
+					<Footer blog={this.state}/>
+				</div>
+			</div>
+			);
+	},
+	admin: function(page) {
+		// Redirect to the first setup page if necessary
+		if (this.state.firstSetup) {
+			setTimeout(function() { navigate('/setup'); }, 100);
+			return <div/>;
+		}
+
+		return (
+			<div id="root">
+				<Sidebar blog={this.state} events={this.events} />
+				<div className="site-wrapper" id="site-wrapper">
+					<NavBar blog={this.state} events={this.events} />
+					<Editor blog={this.state} events={this.events} />
 					<Footer blog={this.state}/>
 				</div>
 			</div>

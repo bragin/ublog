@@ -22,7 +22,8 @@ var Setup = React.createClass({
 	},
 
 	onSubmitCallback: function(res) {
-		//console.log(res);
+		// Navigate to the front page
+		this.props.events.onBlogSetupCompleted(res);
 	},
 
 	render: function() {

@@ -104,6 +104,15 @@ var Sidebar = React.createClass({
 			</div>
 				);*/
 
+		var blog = this.props.blog;
+		var items = [];
+
+		// Put admin stuff into the menu items list
+		if (blog.user && blog.user.permissions.owner) {
+			items.push(<li key={1}><a href="/admin/editor"><i className="fa fa-pencil fa-fw"></i>&nbsp; New Post</a></li>);
+		}
+
+
 		return <div id="sidebar-wrapper">
 					<ul className="sidebar-nav">
 						<li className="sidebar-brand">
@@ -111,12 +120,7 @@ var Sidebar = React.createClass({
 								Menu
 							</a>
 						</li>
-						<li>
-							<a href="#">Services</a>
-						</li>
-						<li>
-							<a href="#">Contact</a>
-						</li>
+						{ items }
 						<li>
 							<LoginBox blog={this.props.blog} events={this.props.events} />
 						</li>
