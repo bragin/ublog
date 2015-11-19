@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-var autoprefixer = require('autoprefixer-core');
+var autoprefixer = require('autoprefixer');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.js$/, loader: 'jsx-loader'},
+      {test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'babel', query: { presets: ['react'] }},
       {test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader","css-loader!postcss-loader", {publicPath: '/'})},
       {test: /\.(eot|svg|ttf|woff|otf)/, loader: 'file-loader?name=assets/fonts/[name].[ext]'},
       {test: /\.(png|jpg|gif)/, loader: 'file-loader?name=assets/img/[name].[ext]'}

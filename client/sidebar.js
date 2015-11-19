@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 "use strict";
 
 var React = require('react');
@@ -21,8 +20,8 @@ var LoginBox = React.createClass({
 			errPassword: false
 		});
 
-		var email = this.refs.email.getDOMNode().value;
-		var pass = this.refs.password.getDOMNode().value;
+		var email = this.refs.email.value;
+		var pass = this.refs.password.value;
 
 		this.props.blog.api.login({
 			action: 'login',

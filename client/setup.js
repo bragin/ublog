@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 "use strict";
 
 var React = require('react');
@@ -12,8 +11,8 @@ var Setup = React.createClass({
 	onSubmit: function(e) {
 		e.preventDefault();
 
-		var email = this.refs.email.getDOMNode().value;
-		var pass = this.refs.password.getDOMNode().value;
+		var email = this.refs.email.value;
+		var pass = this.refs.password.value;
 
 		this.props.blog.api.createUser({
 			email: email,

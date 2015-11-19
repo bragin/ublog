@@ -1,7 +1,7 @@
-/** @jsx React.DOM */
 "use strict";
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var RouterMixin = require('react-mini-router').RouterMixin;
 var navigate = require('react-mini-router').navigate;
 
@@ -152,15 +152,17 @@ var RootComponent = React.createClass({
 		}
 
 		return (
-			<div id="root">
-				<Sidebar blog={this.state} events={this.events} />
-				<div className="site-wrapper" id="site-wrapper">
-					<NavBar blog={this.state} events={this.events} />
-					<Editor blog={this.state} events={this.events} />
-					<Footer blog={this.state}/>
-				</div>
+			<div id="root" className="container-fluid viewport">
+				<Editor blog={this.state} events={this.events} />
 			</div>
 			);
+
+		/*<Sidebar blog={this.state} events={this.events} />
+			<NavBar blog={this.state} events={this.events} />
+		<div className="container-fluid" style={{height:'100%'}}>
+			<Editor blog={this.state} events={this.events} />
+			<Footer blog={this.state}/>
+		</div>*/
 	},
 	page1: function() {
 		return (
@@ -174,7 +176,7 @@ var RootComponent = React.createClass({
 	}
 });
 
-React.render(
+ReactDOM.render(
    <RootComponent history='true' />, 
-   document.getElementById('page')
+   document.body
 );

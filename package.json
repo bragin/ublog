@@ -24,7 +24,8 @@
     "redis":"",
     "nconf": "",
     
-    "react": "~0.13",
+    "react": "~0.14",
+    "react-dom": "",
     "react-mini-router": "",
     "marked": "",
     "moment": "",
@@ -36,12 +37,15 @@
     "postcss-loader": "",
     "file-loader": "",
     "url-loader": "",
-    "autoprefixer-core": "",
+    "autoprefixer": "",
     "extract-text-webpack-plugin": "",
     "xhr": ""
   },
   "devDependencies": {
     "gulp": "",
-    "nodemon": ""
+    "nodemon": "",
+    "babel-core": "",
+    "babel-loader": "",
+    "babel-preset-react": ""
   }
 }

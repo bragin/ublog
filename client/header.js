@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 "use strict";
 
 var React = require('react');
@@ -53,8 +52,8 @@ var Header = React.createClass({
 		var api = blog.api;
 
 		// Get data to determine what changed
-		var titleNode = this.refs.pageTitle.getDOMNode();
-		var descNode = this.refs.pageDesc.getDOMNode();
+		var titleNode = this.refs.pageTitle;
+		var descNode = this.refs.pageDesc;
 		var title = titleNode.value;
 		var desc = descNode.value;
 
@@ -70,8 +69,8 @@ var Header = React.createClass({
 	},
 
 	saveChangesCompleted: function(res) {
-		var titleNode = this.refs.pageTitle.getDOMNode();
-		var descNode = this.refs.pageDesc.getDOMNode();
+		var titleNode = this.refs.pageTitle;
+		var descNode = this.refs.pageDesc;
 		titleNode.classList.remove('saving');
 		descNode.classList.remove('saving');
 

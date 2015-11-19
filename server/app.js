@@ -160,7 +160,7 @@ app.get('*', function (req, res, next) {
 		var footer = '<script id="payload" type="application/payload">' + JSON.stringify(payload) + '</script>' +
 					'<script src="/assets/js/app.js"></script>';
 
-		var content = 'Loading...';
+		var content = '<p>Loading...</p>';
 		//content = React.renderToString(React.createElement(handler, props));
 
 		// FIXME: Should be different for other pages! Look into Ghost/core/server/helpers/body_class.js for details
