@@ -54,7 +54,7 @@ var LoginBox = React.createClass({
 
 		if (this.props.blog.user) {
 			loginBox = <form id="login" className="login-form" onSubmit={this.onLogout}>
-					<button className="btn btn-blue login-button" type="submit">Sign out</button>
+					<button className="btn btn-secondary login-button" type="submit">Sign out</button>
 				</form>;
 		} else {
 			// Highlight boxes with invalid data
@@ -109,15 +109,14 @@ var Sidebar = React.createClass({
 		// Put admin stuff into the menu items list
 		if (blog.user && blog.user.permissions.owner) {
 			items.push(<li key={1}><a href="/admin/editor"><i className="fa fa-pencil fa-fw"></i>&nbsp; New Post</a></li>);
+			items.push(<li key={2}><a href="/admin/pages"><i className="fa fa-sitemap fa-fw"></i>&nbsp; Content</a></li>);
 		}
 
 
 		return <div id="sidebar-wrapper">
 					<ul className="sidebar-nav">
 						<li className="sidebar-brand">
-							<a href="#">
-								Menu
-							</a>
+							<a href="/">Menu</a>
 						</li>
 						{ items }
 						<li>

@@ -15,6 +15,9 @@ var Editor = require('./editor');
 
 var blogApi = require('./api')
 
+// Needed for WebPack CSS loader to process the file
+require("../themes/bootstrap/assets/css/ublog.css");
+
 // Root component
 var RootComponent = React.createClass({
 	mixins: [RouterMixin],
@@ -153,6 +156,8 @@ var RootComponent = React.createClass({
 
 		return (
 			<div id="root" className="container-fluid viewport">
+				<Sidebar blog={this.state} events={this.events} />
+				<NavBar blog={this.state} events={this.events} />
 				<Editor blog={this.state} events={this.events} />
 			</div>
 			);

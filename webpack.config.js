@@ -20,14 +20,7 @@ module.exports = {
     ]
   },
   plugins: [
-     /*new webpack.DefinePlugin({
-       "process.env": {
-       NODE_ENV: JSON.stringify("production")
-       }
-     }),
-     new webpack.optimize.UglifyJsPlugin(),
-     new ExtractTextPlugin("./assets/css/ob.css", { allChunks: true })*/
-     /*new webpack.optimize.CommonsChunkPlugin('js/common.js')*/
+     new ExtractTextPlugin("./css/ublog-min.css", { allChunks: true })
   ],
   postcss: [ autoprefixer({ browsers: ['last 3 version'] }) ]
 };
