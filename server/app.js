@@ -42,14 +42,40 @@ app.post('/api/posts', function (req, res) {
 		params.limit = parseInt(params.limit, 10);
 		if (params.limit < 1) params.limit = 1;
 		if (params.limit > 10) params.limit = 10;
+		if (params.pid) params.pid = parseInt(params.pid, 10);
 	} catch (e) {
 		return res.status(500).send('Bad API request');
 	}
 
-	var obj = blogApi.getPosts(req.body);
-	res.set('Content-Type', 'application/json');
-	res.send(JSON.stringify(obj));
+	blogApi.getPosts(req.body, function (obj) {
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(obj));
+	});
 });
+
+app.post('/api/post', function (req, res) {
+
+	var params = req.body;
+
+	if (!blogApi.isAdmin(req.session)) {
+		return res.status(500).send('Bad API request');
+	}
+
+	try {
+		if (!params.title) params.title = '(Untitled)';
+		if (!params.content) params.content = '';
+		params.id = parseInt(params.id, 10);
+		if (params.id < 0) params.id = 0;
+	} catch (e) {
+		return res.status(500).send('Bad API request');
+	}
+
+	blogApi.updatePost(params, function (postObj) {
+		res.set('Content-Type', 'application/json');
+		res.send(JSON.stringify(postObj));
+	});
+});
+
 
 // Show specific post
 app.get('/api/:post', function (req, res, next) {

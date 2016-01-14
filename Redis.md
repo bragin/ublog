@@ -23,13 +23,16 @@ post:<POST_ID> - blog post, type=hash
 - title
 - abstract
 - content
-- ts
+- ts (publishing time)
 - published
 - tags
 - headerimg
 
-posts - set of all posts (by id), type=sorted set
+posts - set of all published posts (by id), type=sorted set, sorted by ts
+drafts - set of all drats posts (by id), type=sorted set, sorted by ts
 user:<USER_ID>:posts - set of all posts (by id) by this user, type=sorted set
+all - set of all types of posts (by id), type=sorted set, sorted by ts
 
 Global counters
 global:nextUserId
+global:nextPostId

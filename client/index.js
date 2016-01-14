@@ -11,7 +11,9 @@ var Header = require('./header');
 var Footer = require('./footer');
 var Posts = require('./posts');
 var Setup = require('./setup');
+
 var Editor = require('./editor');
+var PagesList = require('./pageslist');
 
 var blogApi = require('./api')
 
@@ -24,6 +26,7 @@ var RootComponent = React.createClass({
 	routes: {
 		'/blah' : 'page1', // Some other page
 		'/setup': 'setup', // First setup
+		'/admin/editor/:page?': 'admineditor', // Admin pages: editor
 		'/admin/:page?': 'admin', // Admin pages
 		'/'     : 'home', // front page
 	},
@@ -147,6 +150,24 @@ var RootComponent = React.createClass({
 			</div>
 			);
 	},
+	admineditor: function(pid) {
+		// Redirect to the first setup page if necessary
+		if (this.state.firstSetup) {
+			setTimeout(function() { navigate('/setup'); }, 100);
+			return <div/>;
+		}
+
+		if (pid == null) pid = 0;
+		var body = <Editor blog={this.state} pid={pid} events={this.events} />;
+
+		return (
+			<div id="root" className="container-fluid viewport">
+				<Sidebar blog={this.state} events={this.events} />
+				<NavBar blog={this.state} events={this.events} />
+				{ body }
+			</div>
+			);
+	},
 	admin: function(page) {
 		// Redirect to the first setup page if necessary
 		if (this.state.firstSetup) {
@@ -154,11 +175,22 @@ var RootComponent = React.createClass({
 			return <div/>;
 		}
 
+		var body = null;
+		switch (page) {
+			case 'editor':
+				body = <Editor blog={this.state} events={this.events} />;
+				break;
+
+			default:
+				body = <PagesList blog={this.state} events={this.events} />
+				break;
+		}
+
 		return (
 			<div id="root" className="container-fluid viewport">
 				<Sidebar blog={this.state} events={this.events} />
 				<NavBar blog={this.state} events={this.events} />
-				<Editor blog={this.state} events={this.events} />
+				{ body }
 			</div>
 			);
 

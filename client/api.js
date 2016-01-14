@@ -80,6 +80,18 @@ api.xhr = {
 			else
 				cb(body);
 		})
+	},
+	updatePost: function (params, cb) {
+		xhr({
+			json: params,
+			method: 'POST',
+			uri: '/api/post'
+		}, function (err, resp, body) {
+			if (resp.statusCode != 200)
+				cb(null);
+			else
+				cb(body);
+		})
 	}
 }
 
@@ -96,6 +108,10 @@ function getPosts(query, cb) {
 	api[prot].getPosts(query, cb);
 }
 
+function updatePost(query, cb) {
+	api[prot].updatePost(query, cb);
+}
+
 function setSiteInfo(info, cb) {
 	api[prot].setSiteInfo(info, cb);
 }
@@ -108,6 +124,7 @@ var blogApi = {
 	login: login,
 	createUser: createUser,
 	getPosts: getPosts,
+	updatePost: updatePost,
 	setSiteInfo: setSiteInfo,
 	getSiteInfo: getSiteInfo
 }

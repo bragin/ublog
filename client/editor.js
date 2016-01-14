@@ -4,6 +4,8 @@ var React = require('react');
 var navigate = require('react-mini-router').navigate;
 var marked = require("marked");
 
+var api = require('./api');
+
 var PostSettings = React.createClass({
 	render: function() {
 		return (
@@ -24,7 +26,7 @@ var PostSettings = React.createClass({
 							<button className="js-fail btn btn-green" style={{display: 'none'}}>Try Again</button>
 							<a title="Add image from URL" className="image-url"><i className="fa fa-link"><span className="sr-only">URL</span></i></a>
 						</section>
-					<form>
+					<form onChange={this.props.onChange}>
 						<div className="form-group">
 							<label htmlFor="url">Post URL</label>
 							<div className="input-group">
@@ -71,9 +73,9 @@ var PostSettings = React.createClass({
 								</label>
 							</div>
 							<div className="checkbox">
-								<label htmlFor="featured">
-									<input name="featured" id="featured" type="checkbox" />
-									Feature this post
+								<label htmlFor="published">
+									<input name="published" id="published" ref="published" type="checkbox" defaultChecked={this.props.post.published} />
+									Publish this post
 								</label>
 							</div>
 						</div>
@@ -91,11 +93,64 @@ var PostSettings = React.createClass({
 var Editor = React.createClass({
 	getInitialState: function() {
 		return {
+			settings: false,
+			updating: false,
+			loading: false,
+			pid: 0,
 			value: 'Type some *markdown* on the left!',
-			settings: false
+			published: true
 		};
 	},
 
+	componentDidMount: function() {
+		// Do not reload same data if it's passed in via init property
+		//if (!this.state.posts) {
+			this.loadPost(this.props);
+		//}
+	},
+
+	// This is needed in case URL is changed by something else than the component itself
+	componentWillReceiveProps: function(newProps) {
+		if (this.props.pid != newProps.pid) {
+			this.loadPost(newProps);
+		}
+	},
+
+	loadPost: function(props) {
+		// Don't return anything if we are creating a new post
+		if (props.pid == 0) {
+			this.setState(this.getInitialState());
+			return;
+		}
+
+		this.setState({
+			loading: true
+		});
+
+		var query = {
+			pid: props.pid
+		};
+
+		props.blog.api.getPosts(query, function(post) {
+			if (!post) {
+				this.setState({
+					loading: false
+				});
+				return;
+			}
+
+			this.refs.source.value = post.content;
+			this.refs.title.value = post.title;
+
+			this.setState({
+				loading: false,
+				pid: post.pid,
+				value: post.content,
+				published: post.published
+			});
+		}.bind(this));
+	},
+	
 	onSettingsClose: function() {
 		this.setState({settings: false});
 	},
@@ -104,13 +159,47 @@ var Editor = React.createClass({
 		this.setState({settings: true});
 	},
 
+	onSettingsChange: function() {
+		// Update our state regarding changes in the settings
+		var sts = this.refs.settings;
+
+		this.setState({
+			published: sts.refs.published.checked
+		});
+	},
+
 	onUpdatePost: function() {
 		// Start updating the post contents
 		var title = this.refs.title.value;
 		var text = this.refs.source.value;
 
-		console.log(title);
-		console.log(text);
+		var post = {
+			title: title,
+			content: text,
+			id: this.state.pid,
+			published: this.state.published
+		};
+
+		this.setState({
+			updating: true
+		});
+		api.updatePost(post, this.onUpdatePostDone);
+	},
+
+	onUpdatePostDone: function(res) {
+		this.setState({
+			updating: false
+		});
+
+		if (res) {
+			console.log(res);
+			// All good, we got a post body in reply, update it
+			this.setState({
+				pid: res.id,
+				published: res.published,
+				value: res.content
+			});
+		}
 	},
 
 	onSourceTextChange: function(e) {
@@ -136,9 +225,32 @@ var Editor = React.createClass({
 	},
 
 	render: function() {
+		var st = this.state;
+
+		var loading = null;
+		if (st.loading)
+			loading = <div className="loaddimmer"><i className="fa fa-spinner fa-spin fa-4x" /></div>;
+
 		var globalClass = 'post-editor';
-		if (this.state.settings)
+		if (st.settings)
 			globalClass += ' settings-menu-expanded';
+
+		var actionButtonText = null;
+		
+		if (st.pid == 0) {
+			if (st.published)
+				actionButtonText = 'Create Post';
+			else
+				actionButtonText = 'Create Draft';
+		} else {
+			if (st.published)
+				actionButtonText = 'Update Post';
+			else
+				actionButtonText = 'Update Draft';
+		}
+
+		if (this.state.updating)
+			actionButtonText = <span>Saving... &nbsp;<i className="fa fa-spinner fa-spin" /></span>;
 
 		return (
 			<section className={globalClass}>
@@ -152,7 +264,7 @@ var Editor = React.createClass({
 							</button>
 							<section className="btn-group">
 								<button type="button" className="btn btn-sm btn-primary" onClick={this.onUpdatePost}>
-									Update Post
+									{ actionButtonText }
 								</button>
 
 								<button role="button" className="btn btn-sm btn-primary  dropdown-toggle up">
@@ -183,7 +295,8 @@ var Editor = React.createClass({
 						</section>
 
 					</section>
-					<PostSettings onClose={this.onSettingsClose}/>
+					<PostSettings ref="settings" post={this.state} onClose={this.onSettingsClose} onChange={this.onSettingsChange} />
+					{ loading }
 				</section>);
 	}
 });
