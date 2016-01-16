@@ -10,6 +10,7 @@ var NavBar = require('./navbar');
 var Header = require('./header');
 var Footer = require('./footer');
 var Posts = require('./posts');
+var Post = require('./post');
 var Setup = require('./setup');
 
 var Editor = require('./editor');
@@ -24,11 +25,11 @@ require("../themes/bootstrap/assets/css/ublog.css");
 var RootComponent = React.createClass({
 	mixins: [RouterMixin],
 	routes: {
-		'/blah' : 'page1', // Some other page
-		'/setup': 'setup', // First setup
+		'/setup'              : 'setup', // First setup
 		'/admin/editor/:page?': 'admineditor', // Admin pages: editor
-		'/admin/:page?': 'admin', // Admin pages
-		'/'     : 'home', // front page
+		'/admin/:page?'       : 'admin', // Admin pages
+		'/'                   : 'home', // front page
+		'*'              : 'post' // display specific post
 	},
 
 	events: {},
@@ -150,6 +151,22 @@ var RootComponent = React.createClass({
 			</div>
 			);
 	},
+	post: function(url) {
+
+		// Remove the leading slash from the url
+		url = url.substring(1);
+
+		return (
+			<div id="root" className="container-fluid viewport">
+				<Sidebar blog={this.state} events={this.events} />
+				<NavBar blog={this.state} events={this.events} />
+					<main id="content" className="content" role="main">
+						<Post id={url} blog={this.state} />
+					</main>
+					<Footer blog={this.state}/>
+			</div>
+			);
+	},
 	admineditor: function(pid) {
 		// Redirect to the first setup page if necessary
 		if (this.state.firstSetup) {
@@ -200,13 +217,6 @@ var RootComponent = React.createClass({
 			<Editor blog={this.state} events={this.events} />
 			<Footer blog={this.state}/>
 		</div>*/
-	},
-	page1: function() {
-		return (
-			<div id="root">
-				Page 1
-			</div>
-			);
 	},
 	notFound: function(path) {
 		return <div className="not-found">Page Not Found: {path}</div>;

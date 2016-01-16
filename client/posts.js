@@ -1,7 +1,8 @@
 "use strict";
 
 var React = require('react');
-var api = require('./api');
+var api = require('./api'),
+	df = require('./dateformat');
 
 // Post in the list
 var PostSummary = React.createClass({
@@ -11,8 +12,11 @@ var PostSummary = React.createClass({
 
 		var image = null; //<img className="author-thumb" alt="{{author.name}}" src="{{author.image}}" nopin="nopin" />
 
-		var dateIso = '2015-07-24';// format='YYYY-MM-DD'
-		var dateHuman = '24 July 2015'; // format="DD MMMM YYYY"
+		var postDate = new Date(post.ts * 1000);
+
+		var dateIso = df(postDate, 'yyyy-mm-dd HH:MM');// format='YYYY-MM-DD'
+		var dateHuman = df(postDate, 'dd mmm yyyy HH:MM'); // format="DD MMMM YYYY"
+
 		var tags = null; // prefix = on
 
 		return (

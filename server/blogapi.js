@@ -92,7 +92,7 @@ function getPost(pid, cb) {
 function getPosts(query, cb) {
 	// Normalize query
 	//if (!query.uid) query.uid = 1;// If userid is not specified - assume blog owner
-	if (!query.limit || query.limit < 0) query.limit = 100;
+	if (!query.limit || query.limit <= 0) query.limit = 1;
 	if (!query.ptype) query.ptype = 'published';
 
 	// Check if this is single post load request
@@ -110,7 +110,7 @@ function getPosts(query, cb) {
 	var setKeyName = 'posts';
 
 	task.push(function (cb2) {
-		rclient.zrevrange(setKeyName, 0, query.limit, function (err2, res2) {
+		rclient.zrevrange(setKeyName, 0, query.limit - 1, function (err2, res2) {
 			cb2(null, res2);
 		});
 	});
@@ -126,8 +126,8 @@ function getPosts(query, cb) {
 			});
 		});
 
-		async.parallel(tasks2, function(err5, res5) {
-			console.log(res5);
+		async.parallel(tasks2, function (err5, res5) {
+
 			return cb({
 				posts: res5
 			});
@@ -156,9 +156,10 @@ function updatePost(params, cb) {
 
 	var userid = 1;
 
+	// TODO: Preprocess the post
+	var abstract = 'abstract';
+
 	if (params.id == 0) {
-		// TODO: Preprocess the post
-		var abstract = 'abstract';
 		task.push(function (cb2) {
 			// This is a new post, get a new id for it
 			getNewPostId(function (pid) {
@@ -182,7 +183,16 @@ function updatePost(params, cb) {
 		// Update existing post, get its previous contents
 		task.push(function (cb2) {
 			getPost(params.id, function (post) {
-				console.log(post);
+
+				if (post) {
+					// Update its fields
+					post.url = '';
+					post.title = params.title;
+					post.excerpt = abstract;
+					post.content = params.content;
+					post.published = params.published ? '1' : '0';
+				}
+
 				return cb2(null, post);
 			});
 		});

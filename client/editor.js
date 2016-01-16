@@ -144,7 +144,7 @@ var Editor = React.createClass({
 
 			this.setState({
 				loading: false,
-				pid: post.pid,
+				pid: post.id,
 				value: post.content,
 				published: post.published
 			});
@@ -192,7 +192,7 @@ var Editor = React.createClass({
 		});
 
 		if (res) {
-			console.log(res);
+
 			// All good, we got a post body in reply, update it
 			this.setState({
 				pid: res.id,
